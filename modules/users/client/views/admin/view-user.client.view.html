@@ -5,11 +5,11 @@
         <h1 ng-bind="vm.user.username"></h1>
       </div>
       <div class="col-md-4">
-        <a class="btn btn-primary" ui-sref="admin.user-edit({userId: vm.user._id})">
-          <i class="glyphicon glyphicon-edit"></i>
+        <a class="btn btn-primary" ui-sref="admin.user-edit({userId: vm.user._id})" style="margin-top: 20px;">
+          <i class="glyphicon glyphicon-edit">   EDIT</i>
         </a>
-        <a class="btn btn-primary" ng-click="vm.remove()" ng-if="!vm.isContextUserSelf()">
-          <i class="glyphicon glyphicon-trash"></i>
+        <a class="btn btn-primary" ng-click="vm.remove()" ng-if="!vm.isContextUserSelf()" style="margin-top: 20px;">
+          <i class="glyphicon glyphicon-trash">   DELETE</i>
         </a>
       </div>
     </div>

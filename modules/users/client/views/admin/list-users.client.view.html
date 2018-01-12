@@ -1,11 +1,16 @@
 <section>
   <div class="page-header">
     <div class="row">
-      <div class="col-md-4">
+      <div class="col-md-2">
         <h1>Users</h1>
       </div>
       <div class="col-md-4" style="margin-top: 2em">
         <input class="form-control col-md-4" type="text" ng-model="vm.search" placeholder="Search" ng-change="vm.figureOutItemsToDisplay()" />
+      </div>
+      <div class="col-md-4" style="float: right; margin-top: 2em">
+        <a class="btn btn-primary" ui-sref="authentication.signup">
+          <i class="glyphicon glyphicon-check"> NEW USER</i>
+        </a>
       </div>
     </div>
   </div>

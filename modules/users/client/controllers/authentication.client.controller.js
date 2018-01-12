@@ -23,9 +23,9 @@
     }
 
     // If user is signed in then redirect back home
-    if (vm.authentication.user) {
-      $location.path('/');
-    }
+    // if (vm.authentication.user) {
+    //   $location.path('/');
+    // }
 
     function signup(isValid) {
 

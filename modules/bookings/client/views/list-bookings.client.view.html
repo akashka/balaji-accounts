@@ -1,0 +1,88 @@
+<section>
+  <div class="page-header">
+    <h1>Bookings</h1>
+  </div>
+  <div class="list-group table-responsive">
+    <table class="table">
+        <thead>
+          <tr>
+            <th>LR Date</th>
+            <th>LR No</th>
+            <th>Challan No</th>
+            <th>Branch/Area</th>
+            <th>Consignor</th>
+            <th>Consignee</th>
+            <th>Package</th>
+            <th>Invoice No</th>
+            <th>invoice Date</th>
+            <th>Weight</th>
+            <th>Vehicle No</th>
+            <th>From</th>
+            <th>To</th>
+            <th>Basic Amount</th>
+            <th>Service Tax</th>
+            <th>Other Charge</th>
+            <th>Total Freight Amount</th>
+            <th>Booking Method</th>
+            <th>Vehicle Owner/Broker Name</th>
+            <th>Commission</th>
+            <th>Interest</th>
+            <th>Extra</th>
+            <th>Crane Charge</th>
+            <th>Halting</th>
+            <th>Hire</th>
+            <th>Total Hire</th>
+            <th>Vehicle Type</th>
+            <th>Advance</th>
+            <th>Advance Percent</th>
+            <th>payments</th>
+            <th>Balance</th>
+            <th>POD</th>
+            <th>Remarks</th>
+            <th>GMR</th>
+            <th>Drivers</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="booking in vm.bookings" class="list-group-item">
+            <td> <a ui-sref="bookings.view({ bookingId: booking._id })">View</a> </td>
+            <td>{{booking.lr_date}}</td>
+            <td>{{booking.lr_number}}</td>
+            <td>{{booking.challan_number}}</td>
+            <td>{{booking.branch_area}}</td>
+            <td>{{booking.consigno}}</td>
+            <td>{{booking.consignee}}</td>
+            <td>{{booking.package}}</td>
+            <td>{{booking.invoice_number}}</td>
+            <td>{{booking.invoice_date}}</td>
+            <td>{{booking.weight}}</td>
+            <td>{{booking.vehicle_number}}</td>
+            <td>{{booking.from}}</td>
+            <td>{{booking.to}}</td>
+            <td>{{booking.basic_amount}}</td>
+            <td>{{booking.service_tax}}</td>
+            <td>{{booking.other_charge}}</td>
+            <td>{{booking.total_freight_amount}}</td>
+            <td>{{booking.booking_method}}</td>
+            <td>{{booking.vehicle_owner_broker_name}}</td>
+            <td>{{booking.commission}}</td>
+            <td>{{booking.interest}}</td>
+            <td>{{booking.extra}}</td>
+            <td>{{booking.crane_charge}}</td>
+            <td>{{booking.halting}}</td>
+            <td>{{booking.hire}}</td>
+            <td>{{booking.total_hire}}</td>
+            <td>{{booking.vehicle_type}}</td>
+            <td>{{booking.advance}}</td>
+            <td>{{booking.advance_percent}}</td>
+            <td>{{booking.payments}}</td>
+            <td>{{booking.balance}}</td>
+            <td>{{booking.pod}}</td>
+            <td>{{booking.remarks}}</td>
+            <td>{{booking.gmr}}</td>
+            <td>{{booking.drivers}}</td>
+          </tr>
+        </tbody>
+    </table>
+  </div>
+</section>

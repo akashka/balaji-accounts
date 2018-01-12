@@ -9,8 +9,8 @@
 
   // Configuring the Users module
   function menuConfig(menuService) {
-    menuService.addSubMenuItem('topbar', 'admin', {
-      title: 'Manage Users',
+    menuService.addMenuItem('topbar', {
+      title: 'Users',
       state: 'admin.users'
     });
   }
