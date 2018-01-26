@@ -8,18 +8,27 @@
   BookingsService.$inject = ['$resource', '$log'];
 
   function BookingsService($resource, $log) {
-    var Booking = $resource('/api/bookings/:bookingId', {
-      bookingId: '@_id'
-    }, {
+    var Booking = $resource('/api/bookings', {}, {
       update: {
-        method: 'PUT'
+        method: 'PUT',
+        url: '/api/bookings',
+        params: {
+          provider: '@provider'
+        }
+      },
+      saveBooking: {
+        method: 'POST',
+        url: '/api/bookings'
       }
     });
 
-    angular.extend(Booking.prototype, {
-      createOrUpdate: function () {
-        var booking = this;
-        return createOrUpdate(booking);
+    angular.extend(Booking, {
+      createOrUpdate: function (booking) {
+        if (booking._id) {
+          return booking.$update(onSuccess, onError);
+        } else {
+          return this.saveBooking(booking).$promise;
+        }
       }
     });
 
@@ -29,7 +38,7 @@
       if (booking._id) {
         return booking.$update(onSuccess, onError);
       } else {
-        return booking.$save(onSuccess, onError);
+        return this.saveBooking(booking).$promise;
       }
 
       // Handle successful response

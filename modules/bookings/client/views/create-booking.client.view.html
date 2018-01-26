@@ -1,30 +1,750 @@
 <section>
   <div class="page-header">
-    <h1>{{vm.article._id ? 'Edit Article' : 'New Article'}}</h1>
+    <h1>{{vm.bookingForm._id ? 'Edit Booking' : 'New Booking'}}</h1>
   </div>
   <div class="pull-right">
-    <a ng-show="vm.article._id" class="btn btn-primary" ng-click="vm.remove()">
+    <a ng-show="vm.booking._id" class="btn btn-primary" ng-click="vm.remove()">
       <i class="glyphicon glyphicon-trash"></i>
     </a>
   </div>
   <div class="col-md-12">
-    <form name="vm.form.articleForm" class="form-horizontal" ng-submit="vm.save(vm.form.articleForm.$valid)" novalidate>
-      <fieldset>
-        <div class="form-group" show-errors>
-          <label class="control-label" for="title">Title</label>
-          <input name="title" type="text" ng-model="vm.article.title" id="title" class="form-control" placeholder="Title" required autofocus>
-          <div ng-messages="vm.form.articleForm.title.$error" role="alert">
-            <p class="help-block error-text" ng-message="required">Article title is required.</p>
-          </div>
+    <form name="vm.bookingForm" class="form-horizontal" ng-submit="vm.save(vm.bookingForm.$valid)" novalidate>
+
+        <div ng-hide="vm.isError">
+            <!-- row 1,2 Basic Details -->
+            <div class="row">
+                <!-- Column 1 -->
+                <div class="col-sm-6 col-md-6">
+                    <div class="form-group">
+                        <label for="lr_date" class="col-sm-4 control-label">LR Date:</label>
+                        <div class="col-sm-8" ng-hide="vm.bookingCompleted">
+                            <p class="input-group date">
+                                <input type="text" id="lr_date" class="form-control" datepicker-popup="dd-MMM-yyyy" placeholder="Enter valid date" 
+                                    ng-model="vm.bookingForm.lr_date" is-open="vm.dateset.lr_date.isOpened" ng-required="true" />
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-default btn-date" ng-click="selectDate($event, 1)">
+                                      <i class="glyphicon glyphicon-calendar"></i>
+                                    </button>
+                                </span>
+                            </p>
+                        </div>
+                        <div class="col-sm-8" ng-show="vm.bookingCompleted">
+                            {{vm.bookingForm.lr_date}}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-6">
+                    <div class="form-group">
+                        <label for="lr_number" class="col-sm-4 control-label">LR Number:</label>
+                        <div class="col-sm-8" ng-hide="vm.bookingCompleted">
+                            <input id="lr_number" type="text" class="form-control" ng-model="vm.bookingForm.lr_number" 
+                                placeholder="Enter LR Number" ng-required="true" />
+                             <div ng-messages="vm.bookingForm.lr_number.$error" ng-show="vm.bookingForm.lr_number.$dirty && vm.bookingForm.lr_number.$invalid" class="error-message">
+                                <div ng-message="required">LR Number is required</div>
+                                <div ng-message="maxlength">LR Number cannot be more than 10 characters</div>
+                            </div> 
+                        </div>
+                        <div class="col-sm-8" ng-show="vm.bookingCompleted">
+                            {{vm.bookingForm.lr_number}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-6 col-md-6">
+                    <div class="form-group">
+                        <label for="challan_number" class="col-sm-4 control-label">Challan Number:</label>
+                        <div class="col-sm-8" ng-hide="vm.bookingCompleted">
+                            <input id="challan_number" type="text" class="form-control" ng-model="vm.bookingForm.challan_number" 
+                                placeholder="Enter Challan Number" />
+                             <div ng-messages="vm.bookingForm.challan_number.$error" ng-show="vm.bookingForm.challan_number.$dirty && vm.bookingForm.challan_number.$invalid" class="error-message">
+                                <div ng-message="required">Challan Number is required</div>
+                            </div> 
+                        </div>
+                        <div class="col-sm-8" ng-show="vm.bookingCompleted">
+                            {{vm.bookingForm.challan_number}}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-6">
+                    <div class="form-group">
+                        <label for="branch_area" class="col-sm-4 control-label">Branch / Area:</label>
+                        <div class="col-sm-8" ng-hide="vm.bookingCompleted">
+                            <input id="branch_area" type="text" class="form-control" ng-model="vm.bookingForm.branch_area" 
+                                placeholder="Enter Branch / Area" ng-required="true" />
+                             <div ng-messages="vm.bookingForm.branch_area.$error" ng-show="vm.bookingForm.branch_area.$dirty && vm.bookingForm.branch_area.$invalid" class="error-message">
+                                <div ng-message="required">Branch / Area is required</div>
+                            </div> 
+                        </div>
+                        <div class="col-sm-8" ng-show="vm.bookingCompleted">
+                            {{vm.bookingForm.branch_area}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-6 col-md-6">
+                    <div class="form-group">
+                        <label for="from" class="col-sm-4 control-label">From:</label>
+                        <div class="col-sm-8">
+                            <input id="from" type="text" class="form-control" ng-model="vm.bookingForm.from" 
+                                placeholder="Enter From location" />
+                        </div>
+                    </div>
+                </div>
+               <div class="col-sm-6 col-md-6">
+                    <div class="form-group">
+                        <label for="to" class="col-sm-4 control-label">To:</label>
+                        <div class="col-sm-8">
+                            <input id="to" type="text" class="form-control" ng-model="vm.bookingForm.to" 
+                                placeholder="Enter To location" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-6 col-md-6">
+                    <div class="form-group">
+                        <label for="package" class="col-sm-4 control-label">Package:</label>
+                        <div class="col-sm-8">
+                            <input id="package" type="text" class="form-control" ng-model="vm.bookingForm.package" 
+                                placeholder="Enter Package" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-6">
+                    <div class="form-group">
+                        <label for="weight" class="col-sm-4 control-label">Weight:</label>
+                        <div class="col-sm-8">
+                            <input id="weight" type="text" class="form-control" ng-model="vm.bookingForm.weight" 
+                                placeholder="Enter Weight" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- section - Consignor & Consignee Details  -->
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="panel-group">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a data-toggle="collapse" href="#collapse1">Consignor Details</a>
+                                </h4>
+                            </div>
+                            <div id="collapse1" class="panel-collapse collapse in">
+                                <div class="panel-body">
+                                    <div class="form-group">
+                                        <label for="consignor_name" class="col-sm-4 control-label">Name:</label>
+                                        <div class="col-sm-8">
+                                            <input id="consignor_name" type="text" class="form-control" ng-model="vm.bookingForm.consignor.name" 
+                                                placeholder="Enter Consignor Name" ng-required="true" />
+                                            <div ng-messages="vm.bookingForm.consignor_name.$error" ng-show="vm.bookingForm.consignor_name.$dirty && vm.bookingForm.consignor_name.$invalid" class="error-message">
+                                                <div ng-message="required">Consignor Name is required</div>
+                                            </div> 
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel-body">
+                                    <div class="form-group">
+                                        <label for="consignor_address" class="col-sm-4 control-label">Address:</label>
+                                        <div class="col-sm-8">
+                                            <textarea id="consignor_address" class="form-control" ng-model="vm.bookingForm.consignor.address" 
+                                                placeholder="Enter Consignor Address"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel-body">
+                                    <div class="form-group">
+                                        <label for="consignor_phonenum" class="col-sm-4 control-label">Phone:</label>
+                                        <div class="col-sm-8">
+                                            <input id="consignor_phonenum" type="text" class="form-control" ng-model="vm.bookingForm.consignor.phonenum" 
+                                                placeholder="Enter Consignor Phone" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="panel-group">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a data-toggle="collapse" href="#collapse2">Consignee Details</a>
+                                </h4>
+                            </div>
+                            <div id="collapse2" class="panel-collapse collapse in">                            
+                                <div class="panel-body">
+                                    <div class="form-group">
+                                        <label for="consignee_name" class="col-sm-4 control-label">Name:</label>
+                                        <div class="col-sm-8">
+                                            <input id="consignee_name" type="text" class="form-control" ng-model="vm.bookingForm.consignee.name" 
+                                                placeholder="Enter Consignee Name" ng-required="true" />
+                                            <div ng-messages="vm.bookingForm.consignee_name.$error" ng-show="vm.bookingForm.consignee_name.$dirty && vm.bookingForm.consignee_name.$invalid" class="error-message">
+                                                <div ng-message="required">Consignee Name is required</div>
+                                            </div> 
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel-body">
+                                    <div class="form-group">
+                                        <label for="consignee_address" class="col-sm-4 control-label">Address:</label>
+                                        <div class="col-sm-8">
+                                            <textarea id="consignee_address" class="form-control" ng-model="vm.bookingForm.consignee.address" 
+                                                placeholder="Enter Consignee Address"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel-body">
+                                    <div class="form-group">
+                                        <label for="consignee_phonenum" class="col-sm-4 control-label">Phone:</label>
+                                        <div class="col-sm-8">
+                                            <input id="consignee_phonenum" type="text" class="form-control" ng-model="vm.bookingForm.consignee.phonenum" 
+                                                placeholder="Enter Consignee Phone" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- section - Invoice Details  -->
+            <div class="">
+                <div class="panel-group">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" href="#collapse3">Invoice Details</a>
+                            </h4>
+                        </div>
+                        <div id="collapse3" class="panel-collapse collapse in">
+                            <div class="panel-body">
+                                <div class="col-sm-6 col-md-6">
+                                    <div class="form-group">
+                                        <label for="invoice_number" class="col-sm-4 control-label">Invoice Number:</label>
+                                        <div class="col-sm-8">
+                                            <input id="invoice_number" type="text" class="form-control" ng-model="vm.bookingForm.invoice_number" 
+                                                placeholder="Enter Invoice Number" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-md-6">
+                                    <div class="form-group">
+                                        <label for="invoice_date" class="col-sm-4 control-label">Invoice Date:</label>
+                                        <div class="col-sm-8">
+                                            <p class="input-group date">
+                                                <input type="text" id="invoice_date" class="form-control" datepicker-popup="dd-MMM-yyyy" placeholder="Enter valid date" 
+                                                    ng-model="vm.bookingForm.invoice_date" is-open="vm.dateset.invoice_date.isOpened" />
+                                                <span class="input-group-btn">
+                                                    <button type="button" class="btn btn-default btn-date" ng-click="selectDate($event, 2)">
+                                                    <i class="glyphicon glyphicon-calendar"></i>
+                                                    </button>
+                                                </span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel-body">
+                                <div class="col-sm-6 col-md-6">
+                                    <div class="form-group">
+                                        <label for="booking_method" class="col-sm-4 control-label">Booking Method:</label>
+                                        <div class="col-sm-8">
+                                            <select class="form-control" id="booking_method" ng-model="vm.bookingForm.booking_method">
+                                                <option disabled selected value="">-- choose a Booking Method --</option>
+                                                <option value="topay">To Pay</option>
+                                                <option value="paid">Paid</option>
+                                                <option value="tobebilled">To be Billed</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-md-6">
+                                    <div class="form-group">
+                                        <label for="basic_amount" class="col-sm-4 control-label">Basic Amount:</label>
+                                        <div class="col-sm-8">
+                                            <p class="input-group date">
+                                                <span class="input-group-btn">
+                                                    <button type="button" class="btn btn-default btn-date">
+                                                        &#8377;
+                                                    </button>
+                                                </span>
+                                                <input id="basic_amount" type="text" class="form-control" ng-model="vm.bookingForm.basic_amount" 
+                                                    placeholder="Enter Basic Amount" />
+                                            </p>                        
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel-body">
+                                <div class="col-sm-6 col-md-6">
+                                    <div class="form-group">
+                                        <label for="service_tax" class="col-sm-4 control-label">Service Tax:</label>
+                                        <div class="col-sm-8">
+                                            <p class="input-group date">
+                                                <span class="input-group-btn">
+                                                    <button type="button" class="btn btn-default btn-date">
+                                                        &#8377;
+                                                    </button>
+                                                </span>
+                                                <input id="service_tax" type="text" class="form-control" ng-model="vm.bookingForm.service_tax" 
+                                                    placeholder="Enter Service Tax" />
+                                            </p>                        
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-md-6">
+                                    <div class="form-group">
+                                        <label for="other_charge" class="col-sm-4 control-label">Other Charge:</label>
+                                        <div class="col-sm-8">
+                                            <p class="input-group date">
+                                                <span class="input-group-btn">
+                                                    <button type="button" class="btn btn-default btn-date">
+                                                        &#8377;
+                                                    </button>
+                                                </span>
+                                                <input id="other_charge" type="text" class="form-control" ng-model="vm.bookingForm.other_charge" 
+                                                    placeholder="Enter Other Charge" />
+                                            </p>                        
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel-body">
+                                <div class="col-sm-6 col-md-6">
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label">Total Charge:</label>
+                                        <div class="col-sm-8">
+                                            <h4> &#8377; {{vm.convertToFloat(vm.bookingForm.basic_amount) + vm.convertToFloat(vm.bookingForm.service_tax) + 
+                                                vm.convertToFloat(vm.bookingForm.other_charge)}} </h4>
+                                        </div>
+                                    </div>
+                                </div> 
+                            </div> 
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section - Vehicle Details  -->
+            <div class="">
+                <div class="panel-group">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" href="#collapse4">Vehicle Details</a>
+                            </h4>
+                        </div>
+                        <div id="collapse4" class="panel-collapse collapse in">
+                            <div class="panel-body">
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <label for="vehicle_number" class="col-sm-4 control-label">Vehicle Number:</label>
+                                            <div class="col-sm-8">
+                                                <input id="vehicle_number" type="text" class="form-control" ng-model="vm.bookingForm.vehicle_number" 
+                                                    placeholder="Enter Vehicle Number" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <label for="vehicle_owner_broker_name" class="col-sm-4 control-label">Owner / Broker Name:</label>
+                                            <div class="col-sm-8">
+                                                <input id="vehicle_owner_broker_name" type="text" class="form-control" ng-model="vm.bookingForm.vehicle_owner_broker_name.name" 
+                                                    placeholder="Enter Owner or Broker Name" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <label for="vehicle_owner_broker_address" class="col-sm-4 control-label">Owner / Broker Address:</label>
+                                            <div class="col-sm-8">
+                                                <textarea id="vehicle_owner_broker_address" class="form-control" ng-model="vm.bookingForm.vehicle_owner_broker_name.address" 
+                                                    placeholder="Enter Owner or Broker Address"> </textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <label for="vehicle_owner_broker_phonenum" class="col-sm-4 control-label">Owner / Broker Phone:</label>
+                                            <div class="col-sm-8">
+                                                <input id="vehicle_owner_broker_phonenum" type="text" class="form-control" ng-model="vm.bookingForm.vehicle_owner_broker_name.phonenum" 
+                                                    placeholder="Enter Owner or Broker Phone" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <label for="vehicle_type" class="col-sm-4 control-label">Vehicle Type:</label>
+                                            <div class="col-sm-8">
+                                                <select class="form-control" id="vehicle_type" ng-model="vm.bookingForm.vehicle_type">
+                                                    <option disabled selected value="">-- choose a Vehicle Type --</option>
+                                                    <option value="contracted_vehicle">Contracted Vehicle</option>
+                                                    <option value="market_vehicle">Market Vehicle</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <label for="driver_name" class="col-sm-4 control-label">Driver Name:</label>
+                                            <div class="col-sm-8">
+                                                <input id="driver_name" type="text" class="form-control" ng-model="vm.bookingForm.driver.name" 
+                                                    placeholder="Enter Driver Name" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <label for="driver_numb" class="col-sm-4 control-label">Driver Number:</label>
+                                            <div class="col-sm-8">
+                                                <input id="driver_numb" type="text" class="form-control" ng-model="vm.bookingForm.driver.numb" 
+                                                    placeholder="Enter Driver Phone Number" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <label for="commission" class="col-sm-4 control-label">Commission:</label>
+                                            <div class="col-sm-8">
+                                                <p class="input-group date">
+                                                    <span class="input-group-btn">
+                                                        <button type="button" class="btn btn-default btn-date">
+                                                            &#8377;
+                                                        </button>
+                                                    </span>
+                                                    <input id="commission" type="text" class="form-control" ng-model="vm.bookingForm.commission" 
+                                                        placeholder="Enter Commission" />
+                                                </p>  
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <label for="interest" class="col-sm-4 control-label">Interest:</label>
+                                            <div class="col-sm-8">
+                                                <p class="input-group date">
+                                                    <span class="input-group-btn">
+                                                        <button type="button" class="btn btn-default btn-date">
+                                                            &#8377;
+                                                        </button>
+                                                    </span>
+                                                    <input id="Interest" type="text" class="form-control" ng-model="vm.bookingForm.interest" 
+                                                        placeholder="Enter Interest" />
+                                                </p>  
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <label for="extra" class="col-sm-4 control-label">Extra:</label>
+                                            <div class="col-sm-8">
+                                                <p class="input-group date">
+                                                    <span class="input-group-btn">
+                                                        <button type="button" class="btn btn-default btn-date">
+                                                            &#8377;
+                                                        </button>
+                                                    </span>
+                                                    <input id="extra" type="text" class="form-control" ng-model="vm.bookingForm.extra" 
+                                                        placeholder="Enter Extra" />
+                                                </p>  
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <label for="crane_charge" class="col-sm-4 control-label">Crane Charge:</label>
+                                            <div class="col-sm-8">
+                                                <p class="input-group date">
+                                                    <span class="input-group-btn">
+                                                        <button type="button" class="btn btn-default btn-date">
+                                                            &#8377;
+                                                        </button>
+                                                    </span>
+                                                    <input id="crane_charge" type="text" class="form-control" ng-model="vm.bookingForm.crane_charge" 
+                                                        placeholder="Enter Crane Charge" />
+                                                </p>  
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <label for="halting" class="col-sm-4 control-label">Halting:</label>
+                                            <div class="col-sm-8">
+                                                <p class="input-group date">
+                                                    <span class="input-group-btn">
+                                                        <button type="button" class="btn btn-default btn-date">
+                                                            &#8377;
+                                                        </button>
+                                                    </span>
+                                                    <input id="halting" type="text" class="form-control" ng-model="vm.bookingForm.halting" 
+                                                        placeholder="Enter Halting" />
+                                                </p>  
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <label for="hire" class="col-sm-4 control-label">Hire:</label>
+                                            <div class="col-sm-8">
+                                                <p class="input-group date">
+                                                    <span class="input-group-btn">
+                                                        <button type="button" class="btn btn-default btn-date">
+                                                            &#8377;
+                                                        </button>
+                                                    </span>
+                                                    <input id="hire" type="text" class="form-control" ng-model="vm.bookingForm.hire" 
+                                                        placeholder="Enter Hire" />
+                                                </p>  
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <label class="col-sm-4 control-label">Total Payable:</label>
+                                            <div class="col-sm-8">
+                                                <h4> &#8377; {{vm.convertToFloat(vm.bookingForm.commission) + vm.convertToFloat(vm.bookingForm.interest) + 
+                                                    vm.convertToFloat(vm.bookingForm.extra) + vm.convertToFloat(vm.bookingForm.crane_charge) + 
+                                                    vm.convertToFloat(vm.bookingForm.halting) + vm.convertToFloat(vm.bookingForm.hire)}} </h4>
+                                            </div>
+                                        </div>
+                                    </div> 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section - Payment  -->
+            <div class="">
+                <div class="panel-group">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" href="#collapse5">Payment Details</a>
+                            </h4>
+                        </div>
+                        <div id="collapse5" class="panel-collapse collapse in">
+                            <div class="panel-body">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="advance" class="col-sm-4 control-label">Advance (Rs):</label>
+                                        <div class="col-sm-8">
+                                            <p class="input-group date">
+                                                <span class="input-group-btn">
+                                                    <button type="button" class="btn btn-default btn-date">
+                                                        &#8377;
+                                                    </button>
+                                                </span>
+                                                <input id="advance" type="text" class="form-control" ng-model="vm.bookingForm.advance" 
+                                                    placeholder="Enter Advance" ng-change="vm.onAdvanceChange()"/>
+                                            </p>  
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="advance_perc" class="col-sm-4 control-label">Advance (%):</label>
+                                        <div class="col-sm-8">
+                                            <p class="input-group date">
+                                                <span class="input-group-btn">
+                                                    <button type="button" class="btn btn-default btn-date">
+                                                        %
+                                                    </button>
+                                                </span>
+                                                <input id="advance_perc" type="text" class="form-control" ng-model="vm.advance_perc" 
+                                                    placeholder="Enter Advance in Percentage" ng-change="vm.onAdvancePercChange()"/>
+                                            </p>  
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="payment_mode" class="col-sm-4 control-label">Payment Mode:</label>
+                                        <div class="col-sm-8">
+                                            <select class="form-control" id="payment_mode" ng-model="vm.bookingForm.payments.payment_mode">
+                                                <option disabled selected value="">-- choose a Payment Mode --</option>
+                                                <option value="cash">Cash</option>
+                                                <option value="cheque">Cheque</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6" ng-show="vm.bookingForm.payments.payment_mode == 'cheque'">
+                                    <div class="form-group">
+                                        <label for="cheque_no" class="col-sm-4 control-label">Cheque No:</label>
+                                        <div class="col-sm-8">
+                                            <input id="cheque_no" type="text" class="form-control" ng-model="vm.bookingForm.payments.cheque_no" 
+                                                placeholder="Enter Cheque Number"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6" ng-show="vm.bookingForm.payments.payment_mode == 'cheque'">
+                                    <div class="form-group">
+                                        <label for="cheque_no" class="col-sm-4 control-label">Cheque Date:</label>
+                                        <div class="col-sm-8">
+                                            <p class="input-group date">
+                                                <input type="text" id="cheque_date" class="form-control" datepicker-popup="dd-MMM-yyyy" placeholder="Enter valid date" 
+                                                    ng-model="vm.bookingForm.payments.cheque_date" is-open="vm.cheque_date.isOpened" />
+                                                <span class="input-group-btn">
+                                                    <button type="button" class="btn btn-default btn-date" ng-click="selectDate($event, 1)">
+                                                    <i class="glyphicon glyphicon-calendar"></i>
+                                                    </button>
+                                                </span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label">Balance:</label>
+                                        <div class="col-sm-8">
+                                            <h4> &#8377; {{vm.convertToFloat(vm.bookingForm.basic_amount) - vm.convertToFloat(vm.bookingForm.advance)
+                                                + vm.convertToFloat(vm.bookingForm.service_tax) + vm.convertToFloat(vm.bookingForm.other_charge)}} </h4>
+                                        </div>
+                                    </div>
+                                </div> 
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="cheque_no" class="col-sm-4 control-label">Cheque Date:</label>
+                                        <div class="col-sm-8">
+                                            <p class="input-group date">
+                                                <input type="text" id="cheque_date" class="form-control" datepicker-popup="dd-MMM-yyyy" placeholder="Enter valid date" 
+                                                    ng-model="vm.bookingForm.balance.cheque_date" is-open="vm.cheque_date.isOpened" />
+                                                <span class="input-group-btn">
+                                                    <button type="button" class="btn btn-default btn-date" ng-click="selectDate($event, 1)">
+                                                    <i class="glyphicon glyphicon-calendar"></i>
+                                                    </button>
+                                                </span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="cheque_no" class="col-sm-4 control-label">Cheque No:</label>
+                                        <div class="col-sm-8">
+                                            <input id="cheque_no" type="text" class="form-control" ng-model="vm.bookingForm.balance.cheque_no" 
+                                                placeholder="Enter Cheque Number"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section - POD  -->
+            <div class="">
+                <div class="panel-group">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" href="#collapse5">POD Details:</a>
+                            </h4>
+                        </div>
+                        <div id="collapse5" class="panel-collapse collapse in">
+                            <div class="panel-body">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="pod_receipt" class="col-sm-4 control-label">Receipt Date:</label>
+                                        <div class="col-sm-8">
+                                            <p class="input-group date">
+                                                <input type="text" id="pod_receipt" class="form-control" datepicker-popup="dd-MMM-yyyy" placeholder="Enter valid date" 
+                                                    ng-model="vm.bookingForm.pod.receipt" is-open="vm.cheque_date.isOpened" />
+                                                <span class="input-group-btn">
+                                                    <button type="button" class="btn btn-default btn-date" ng-click="selectDate($event, 1)">
+                                                    <i class="glyphicon glyphicon-calendar"></i>
+                                                    </button>
+                                                </span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="pod_received" class="col-sm-4 control-label">Received Date:</label>
+                                        <div class="col-sm-8">
+                                            <p class="input-group date">
+                                                <input type="text" id="pod_received" class="form-control" datepicker-popup="dd-MMM-yyyy" placeholder="Enter valid date" 
+                                                    ng-model="vm.bookingForm.pod.received" is-open="vm.cheque_date.isOpened" />
+                                                <span class="input-group-btn">
+                                                    <button type="button" class="btn btn-default btn-date" ng-click="selectDate($event, 1)">
+                                                    <i class="glyphicon glyphicon-calendar"></i>
+                                                    </button>
+                                                </span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="bill_no" class="col-sm-4 control-label">Bill No:</label>
+                                        <div class="col-sm-8">
+                                            <input id="bill_no" type="text" class="form-control" ng-model="vm.bookingForm.pod.bill_no"
+                                                placeholder="Enter Bill Number"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="customer_submitted" class="col-sm-6 control-label">POD submitted to Customer?</label>
+                                        <div class="col-sm-1">
+                                            <input id="customer_submitted" type="checkbox" ng-model="vm.bookingForm.pod.customer_submitted" class="form-control" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="gmr" class="col-sm-4 control-label">GMR:</label>
+                                        <div class="col-sm-8">
+                                            <input id="gmr" type="text" class="form-control" ng-model="vm.bookingForm.pod.gmr"
+                                                placeholder="Enter GMR"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
-        <div class="form-group">
-          <label class="control-label" for="content">Content</label>
-          <textarea name="content" data-ng-model="vm.article.content" id="content" class="form-control" cols="30" rows="10" placeholder="Content"></textarea>
+
+        <div ng-show="vm.isError">
+            <div class="error-message">
+                There was an error in making the request. 
+                Booking couldnot be done. Please try again. 
+                Possible instances of this error is there was no unique result found with the customer details.
+            </div>
+        </div>        
+
+        <div class="page-controls">
+            <div class="row text-right" role="toolbar" ng-hide="vm.isError">
+                <div class="loading-indicator" ng-show="vm.requestSubmitted && !vm.bookingCompleted"><img src="images/loader.gif" alt="loading" width="70" height="70" /></div>
+                <button type="button" class="btn btn-default" ng-disabled="vm.bookingForm.$invalid || vm.requestSubmitted" ng-hide="vm.bookingCompleted" ng-click="vm.save(vm.bookingForm.$valid)">Save</button>
+                <button type="button" class="btn btn-default" ng-hide="vm.bookingCompleted" ng-click="vm.reset()">Reset</button>
+                <button type="button" class="btn btn-default" ng-show="vm.bookingCompleted" ng-click="vm.gotoNewBooking()">New Order</button>
+            </div>
+            <div class="row text-right" role="toolbar" ng-show="vm.isError">
+                <button type="button" class="btn btn-default" ng-show="vm.bookingCompleted" ng-click="vm.gotoNewBooking()">New Order</button>
+            </div>
+            <br/>
         </div>
-        <div class="form-group">
-          <button type="submit" class="btn btn-default">{{vm.article._id ? 'Update' : 'Create'}}</button>
-        </div>
-      </fieldset>
+
     </form>
   </div>
 </section>

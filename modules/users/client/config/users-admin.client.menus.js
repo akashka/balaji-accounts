@@ -11,7 +11,8 @@
   function menuConfig(menuService) {
     menuService.addMenuItem('topbar', {
       title: 'Users',
-      state: 'admin.users'
+      state: 'admin.users',
+      roles: ['admin']
     });
   }
 }());

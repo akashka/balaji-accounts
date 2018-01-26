@@ -22,7 +22,11 @@
         <div class="form-group" show-errors>
           <label class="control-label" for="roles">Roles</label>
           <div class="controls">
-            <input class="form-control" type="text" name="roles" ng-model="vm.user.roles" id="roles" ng-list required />
+            <select class="form-control" id="roles" ng-model="vm.user.roles" ng-list required>
+                <option disabled selected value="">-- choose a Role --</option>
+                <option value="user">User</option>
+                <option value="admin">Admin</option>
+            </select>
             <div ng-messages="vm.userForm.roles.$error" role="alert">
               <p class="help-block error-text" ng-message="required">At least one role is required.</p>
             </div>

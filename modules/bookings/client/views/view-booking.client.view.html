@@ -1,7 +1,471 @@
 <section>
   <div class="page-header">
-    <h1 ng-bind="vm.article.lr_number"></h1>
+    <h1>View Booking: {{vm.bookingForm._id}}</h1>
   </div>
-  <small>
-  </small>
+  <div class="pull-right">
+    <a ng-show="vm.booking._id" class="btn btn-primary" ng-click="vm.edit()">
+      <i class="glyphicon glyphicon-trash"></i>
+    </a>
+  </div>
+  <div class="col-md-12">
+
+      <!-- row 1,2 Basic Details -->
+      <div class="row">
+          <!-- Column 1 -->
+          <div class="col-sm-6 col-md-6">
+              <div class="form-group">
+                  <label for="lr_date" class="col-sm-4 control-label">LR Date:</label>
+                  <div class="col-sm-8"> {{vm.bookingForm.lr_date}} </div>
+              </div>
+          </div>
+          <div class="col-sm-6 col-md-6">
+              <div class="form-group">
+                  <label for="lr_number" class="col-sm-4 control-label">LR Number:</label>
+                  <div class="col-sm-8">{{vm.bookingForm.lr_number}}</div>
+              </div>
+          </div>
+      </div>
+
+      <div class="row">
+          <div class="col-sm-6 col-md-6">
+              <div class="form-group">
+                  <label for="challan_number" class="col-sm-4 control-label">Challan Number:</label>
+                  <div class="col-sm-8">{{vm.bookingForm.challan_number}}</div>
+              </div>
+          </div>
+          <div class="col-sm-6 col-md-6">
+              <div class="form-group">
+                  <label for="branch_area" class="col-sm-4 control-label">Branch / Area:</label>
+                  <div class="col-sm-8">{{vm.bookingForm.branch_area}}</div>
+              </div>
+          </div>
+      </div>
+
+      <div class="row">
+          <div class="col-sm-6 col-md-6">
+              <div class="form-group">
+                  <label for="from" class="col-sm-4 control-label">From:</label>
+                  <div class="col-sm-8">{{vm.bookingForm.from}}</div>
+              </div>
+          </div>
+          <div class="col-sm-6 col-md-6">
+              <div class="form-group">
+                  <label for="to" class="col-sm-4 control-label">To:</label>
+                  <div class="col-sm-8">{{vm.bookingForm.to}}</div>
+              </div>
+          </div>
+      </div>
+
+      <div class="row">
+          <div class="col-sm-6 col-md-6">
+              <div class="form-group">
+                  <label for="package" class="col-sm-4 control-label">Package:</label>
+                  <div class="col-sm-8">{{vm.bookingForm.package}}</div>
+              </div>
+          </div>
+          <div class="col-sm-6 col-md-6">
+              <div class="form-group">
+                  <label for="weight" class="col-sm-4 control-label">Weight:</label>
+                  <div class="col-sm-8">{{vm.bookingForm.weight}}</div>
+              </div>
+          </div>
+      </div>
+
+      <!-- section - Consignor & Consignee Details  -->
+      <div class="row">
+          <div class="col-md-6">
+              <div class="panel-group">
+                  <div class="panel panel-default">
+                      <div class="panel-heading">
+                          <h4 class="panel-title">
+                              <a data-toggle="collapse" href="#collapse1">Consignor Details</a>
+                          </h4>
+                      </div>
+                      <div id="collapse1" class="panel-collapse collapse in">
+                          <div class="panel-body">
+                              <div class="form-group">
+                                  <label for="consignor_name" class="col-sm-4 control-label">Name:</label>
+                                  <div class="col-sm-8">{{vm.bookingForm.consignor.name}}</div>
+                              </div>
+                          </div>
+                          <div class="panel-body">
+                              <div class="form-group">
+                                  <label for="consignor_address" class="col-sm-4 control-label">Address:</label>
+                                  <div class="col-sm-8">{{vm.bookingForm.consignor.address}}</div>
+                              </div>
+                          </div>
+                          <div class="panel-body">
+                              <div class="form-group">
+                                  <label for="consignor_phonenum" class="col-sm-4 control-label">Phone:</label>
+                                  <div class="col-sm-8">{{vm.bookingForm.consignor.phonenum}}</div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <div class="col-md-6">
+              <div class="panel-group">
+                  <div class="panel panel-default">
+                      <div class="panel-heading">
+                          <h4 class="panel-title">
+                              <a data-toggle="collapse" href="#collapse2">Consignee Details</a>
+                          </h4>
+                      </div>
+                      <div id="collapse2" class="panel-collapse collapse in">                            
+                          <div class="panel-body">
+                              <div class="form-group">
+                                  <label for="consignee_name" class="col-sm-4 control-label">Name:</label>
+                                  <div class="col-sm-8">{{vm.bookingForm.consignee.name}}</div>
+                              </div>
+                          </div>
+                          <div class="panel-body">
+                              <div class="form-group">
+                                  <label for="consignee_address" class="col-sm-4 control-label">Address:</label>
+                                  <div class="col-sm-8">{{vm.bookingForm.consignee.address}}</div>
+                              </div>
+                          </div>
+                          <div class="panel-body">
+                              <div class="form-group">
+                                  <label for="consignee_phonenum" class="col-sm-4 control-label">Phone:</label>
+                                  <div class="col-sm-8">{{vm.bookingForm.consignee.phonenum}}</div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+
+      <!-- section - Invoice Details  -->
+      <div class="">
+          <div class="panel-group">
+              <div class="panel panel-default">
+                  <div class="panel-heading">
+                      <h4 class="panel-title">
+                          <a data-toggle="collapse" href="#collapse3">Invoice Details</a>
+                      </h4>
+                  </div>
+                  <div id="collapse3" class="panel-collapse collapse in">
+                      <div class="panel-body">
+                          <div class="col-sm-6 col-md-6">
+                              <div class="form-group">
+                                  <label for="invoice_number" class="col-sm-4 control-label">Invoice Number:</label>
+                                  <div class="col-sm-8">{{vm.bookingForm.invoice_number}}</div>
+                              </div>
+                          </div>
+                          <div class="col-sm-6 col-md-6">
+                              <div class="form-group">
+                                  <label for="invoice_date" class="col-sm-4 control-label">Invoice Date:</label>
+                                  <div class="col-sm-8">
+                                      <p class="input-group date">{{vm.bookingForm.invoice_date}}</p>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="panel-body">
+                          <div class="col-sm-6 col-md-6">
+                              <div class="form-group">
+                                  <label for="booking_method" class="col-sm-4 control-label">Booking Method:</label>
+                                  <div class="col-sm-8">{{vm.bookingForm.booking_method}}</div>
+                              </div>
+                          </div>
+                          <div class="col-sm-6 col-md-6">
+                              <div class="form-group">
+                                  <label for="basic_amount" class="col-sm-4 control-label">Basic Amount:</label>
+                                  <div class="col-sm-8">
+                                      <p class="input-group date">{{vm.bookingForm.basic_amount}}</p>                        
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="panel-body">
+                          <div class="col-sm-6 col-md-6">
+                              <div class="form-group">
+                                  <label for="service_tax" class="col-sm-4 control-label">Service Tax:</label>
+                                  <div class="col-sm-8">
+                                      <p class="input-group date">
+                                                  &#8377; {{vm.bookingForm.service_tax}} 
+                                      </p>                        
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="col-sm-6 col-md-6">
+                              <div class="form-group">
+                                  <label for="other_charge" class="col-sm-4 control-label">Other Charge:</label>
+                                  <div class="col-sm-8">
+                                      <p class="input-group date">
+                                                  &#8377; {{vm.bookingForm.other_charge}} 
+                                      </p>                        
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="panel-body">
+                          <div class="col-sm-6 col-md-6">
+                              <div class="form-group">
+                                  <label class="col-sm-4 control-label">Total Charge:</label>
+                                  <div class="col-sm-8">
+                                      <h4> &#8377; {{vm.convertToFloat(vm.bookingForm.basic_amount) + vm.convertToFloat(vm.bookingForm.service_tax) + 
+                                          vm.convertToFloat(vm.bookingForm.other_charge)}} </h4>
+                                  </div>
+                              </div>
+                          </div> 
+                      </div> 
+                  </div>
+              </div>
+          </div>
+      </div>
+
+      <!-- Section - Vehicle Details  -->
+      <div class="">
+          <div class="panel-group">
+              <div class="panel panel-default">
+                  <div class="panel-heading">
+                      <h4 class="panel-title">
+                          <a data-toggle="collapse" href="#collapse4">Vehicle Details</a>
+                      </h4>
+                  </div>
+                  <div id="collapse4" class="panel-collapse collapse in">
+                      <div class="panel-body">
+                          <div class="col-md-6">
+                              <div class="row">
+                                  <div class="form-group">
+                                      <label for="vehicle_number" class="col-sm-4 control-label">Vehicle Number:</label>
+                                      <div class="col-sm-8">{{vm.bookingForm.vehicle_number}}</div>
+                                  </div>
+                              </div>
+                              <div class="row">
+                                  <div class="form-group">
+                                      <label for="vehicle_owner_broker_name" class="col-sm-4 control-label">Owner / Broker Name:</label>
+                                      <div class="col-sm-8">{{vm.bookingForm.vehicle_owner_broker_name.name}}</div>
+                                  </div>
+                              </div>
+                              <div class="row">
+                                  <div class="form-group">
+                                      <label for="vehicle_owner_broker_address" class="col-sm-4 control-label">Owner / Broker Address:</label>
+                                      <div class="col-sm-8">{{vm.bookingForm.vehicle_owner_broker_name.address}}</div>
+                                  </div>
+                              </div>
+                              <div class="row">
+                                  <div class="form-group">
+                                      <label for="vehicle_owner_broker_phonenum" class="col-sm-4 control-label">Owner / Broker Phone:</label>
+                                      <div class="col-sm-8">{{vm.bookingForm.vehicle_owner_broker_name.phonenum}}</div>
+                                  </div>
+                              </div>
+                              <div class="row">
+                                  <div class="form-group">
+                                      <label for="vehicle_type" class="col-sm-4 control-label">Vehicle Type:</label>
+                                      <div class="col-sm-8">{{vm.bookingForm.vehicle_type}}</div>
+                                  </div>
+                              </div>
+                              <div class="row">
+                                  <div class="form-group">
+                                      <label for="driver_name" class="col-sm-4 control-label">Driver Name:</label>
+                                      <div class="col-sm-8">{{vm.bookingForm.driver.name}}</div>
+                                  </div>
+                              </div>
+                              <div class="row">
+                                  <div class="form-group">
+                                      <label for="driver_numb" class="col-sm-4 control-label">Driver Number:</label>
+                                      <div class="col-sm-8">{{vm.bookingForm.driver.numb}}</div>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="col-md-6">
+                              <div class="row">
+                                  <div class="form-group">
+                                      <label for="commission" class="col-sm-4 control-label">Commission:</label>
+                                      <div class="col-sm-8">
+                                          &#8377; {{vm.bookingForm.commission}} 
+                                      </div>
+                                  </div>
+                              </div>
+                              <div class="row">
+                                  <div class="form-group">
+                                      <label for="interest" class="col-sm-4 control-label">Interest:</label>
+                                      <div class="col-sm-8">
+                                            &#8377; {{vm.bookingForm.interest}} 
+                                      </div>
+                                  </div>
+                              </div>
+                              <div class="row">
+                                  <div class="form-group">
+                                      <label for="extra" class="col-sm-4 control-label">Extra:</label>
+                                      <div class="col-sm-8">
+                                          &#8377; {{vm.bookingForm.extra}}
+                                      </div>
+                                  </div>
+                              </div>
+                              <div class="row">
+                                  <div class="form-group">
+                                      <label for="crane_charge" class="col-sm-4 control-label">Crane Charge:</label>
+                                      <div class="col-sm-8">
+                                          &#8377; {{vm.bookingForm.crane_charge}} 
+                                      </div>
+                                  </div>
+                              </div>
+                              <div class="row">
+                                  <div class="form-group">
+                                      <label for="halting" class="col-sm-4 control-label">Halting:</label>
+                                      <div class="col-sm-8">
+                                          &#8377; {{vm.bookingForm.halting}} 
+                                      </div>
+                                  </div>
+                              </div>
+                              <div class="row">
+                                  <div class="form-group">
+                                      <label for="hire" class="col-sm-4 control-label">Hire:</label>
+                                      <div class="col-sm-8">
+                                          &#8377; {{vm.bookingForm.hire}} 
+                                      </div>
+                                  </div>
+                              </div>
+                              <div class="row">
+                                  <div class="form-group">
+                                      <label class="col-sm-4 control-label">Total Payable:</label>
+                                      <div class="col-sm-8">
+                                          <h4> &#8377; {{vm.convertToFloat(vm.bookingForm.commission) + vm.convertToFloat(vm.bookingForm.interest) + 
+                                              vm.convertToFloat(vm.bookingForm.extra) + vm.convertToFloat(vm.bookingForm.crane_charge) + 
+                                              vm.convertToFloat(vm.bookingForm.halting) + vm.convertToFloat(vm.bookingForm.hire)}} </h4>
+                                      </div>
+                                  </div>
+                              </div> 
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+
+      <!-- Section - Payment  -->
+      <div class="">
+          <div class="panel-group">
+              <div class="panel panel-default">
+                  <div class="panel-heading">
+                      <h4 class="panel-title">
+                          <a data-toggle="collapse" href="#collapse5">Payment Details</a>
+                      </h4>
+                  </div>
+                  <div id="collapse5" class="panel-collapse collapse in">
+                      <div class="panel-body">
+                          <div class="col-md-6">
+                              <div class="form-group">
+                                  <label for="advance" class="col-sm-4 control-label">Advance (Rs):</label>
+                                  <div class="col-sm-8">
+                                                  &#8377; {{vm.bookingForm.advance}} 
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="col-md-6">
+                              <div class="form-group">
+                                  <label for="advance_perc" class="col-sm-4 control-label">Advance (%):</label>
+                                  <div class="col-sm-8">
+                                              {{vm.advance_perc}} % 
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="col-md-6">
+                              <div class="form-group">
+                                  <label for="payment_mode" class="col-sm-4 control-label">Payment Mode:</label>
+                                  <div class="col-sm-8">
+                                      {{vm.bookingForm.payments.payment_mode}}
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="col-md-6" ng-show="vm.bookingForm.payments.payment_mode == 'cheque'">
+                              <div class="form-group">
+                                  <label for="cheque_no" class="col-sm-4 control-label">Cheque No:</label>
+                                  <div class="col-sm-8"> {{vm.bookingForm.payments.cheque_no}}</div>
+                              </div>
+                          </div>
+                          <div class="col-md-6" ng-show="vm.bookingForm.payments.payment_mode == 'cheque'">
+                              <div class="form-group">
+                                  <label for="cheque_no" class="col-sm-4 control-label">Cheque Date:</label>
+                                  <div class="col-sm-8">{{vm.bookingForm.payments.cheque_date}}</div>
+                              </div>
+                          </div>
+                          <div class="col-sm-6">
+                              <div class="form-group">
+                                  <label class="col-sm-4 control-label">Balance:</label>
+                                  <div class="col-sm-8">
+                                      <h4> &#8377; {{vm.convertToFloat(vm.bookingForm.basic_amount) - vm.convertToFloat(vm.bookingForm.advance)
+                                          + vm.convertToFloat(vm.bookingForm.service_tax) + vm.convertToFloat(vm.bookingForm.other_charge)}} </h4>
+                                  </div>
+                              </div>
+                          </div> 
+                          <div class="col-md-6">
+                              <div class="form-group">
+                                  <label for="cheque_no" class="col-sm-4 control-label">Cheque Date:</label>
+                                  <div class="col-sm-8">{{vm.bookingForm.balance.cheque_date}}</div>
+                              </div>
+                          </div>
+                          <div class="col-md-6">
+                              <div class="form-group">
+                                  <label for="cheque_no" class="col-sm-4 control-label">Cheque No:</label>
+                                  <div class="col-sm-8">{{vm.bookingForm.balance.cheque_no}}</div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+
+      <!-- Section - POD  -->
+      <div class="">
+          <div class="panel-group">
+              <div class="panel panel-default">
+                  <div class="panel-heading">
+                      <h4 class="panel-title">
+                          <a data-toggle="collapse" href="#collapse5">POD Details:</a>
+                      </h4>
+                  </div>
+                  <div id="collapse5" class="panel-collapse collapse in">
+                      <div class="panel-body">
+                          <div class="col-md-6">
+                              <div class="form-group">
+                                  <label for="pod_receipt" class="col-sm-4 control-label">Receipt Date:</label>
+                                  <div class="col-sm-8">{{vm.bookingForm.pod.receipt}}</div>
+                              </div>
+                          </div>
+                          <div class="col-md-6">
+                              <div class="form-group">
+                                  <label for="pod_received" class="col-sm-4 control-label">Received Date:</label>
+                                  <div class="col-sm-8">{{vm.bookingForm.pod.received}}</div>
+                              </div>
+                          </div>
+                          <div class="col-md-6">
+                              <div class="form-group">
+                                  <label for="bill_no" class="col-sm-4 control-label">Bill No:</label>
+                                  <div class="col-sm-8">{{vm.bookingForm.pod.bill_no}}</div>
+                              </div>
+                          </div>
+                          <div class="col-md-6">
+                              <div class="form-group">
+                                  <label for="customer_submitted" class="col-sm-6 control-label">POD submitted to Customer?</label>
+                                  <div class="col-sm-1">{{vm.bookingForm.pod.customer_submitted}}</div>
+                              </div>
+                          </div>
+                          <div class="col-md-6">
+                              <div class="form-group">
+                                  <label for="gmr" class="col-sm-4 control-label">GMR:</label>
+                                  <div class="col-sm-8">{{vm.bookingForm.pod.gmr}}</div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+
+      <div class="page-controls">
+          <div class="row text-right" role="toolbar">
+              <button type="button" class="btn btn-default" ng-click="vm.edit()">Edit</button>
+              <button type="button" class="btn btn-default" ng-click="vm.gotoNewBooking()">New Order</button>
+          </div>
+          <br/>
+      </div>
+
+  </div>
 </section>

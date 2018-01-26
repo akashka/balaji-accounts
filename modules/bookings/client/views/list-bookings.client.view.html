@@ -3,15 +3,15 @@
     <h1>Bookings</h1>
   </div>
   <div class="list-group table-responsive">
-    <table class="table">
+    <table class="table table-hover">
         <thead>
           <tr>
+            <th> </th>
+            <th> </th>
             <th>LR Date</th>
             <th>LR No</th>
             <th>Challan No</th>
             <th>Branch/Area</th>
-            <th>Consignor</th>
-            <th>Consignee</th>
             <th>Package</th>
             <th>Invoice No</th>
             <th>invoice Date</th>
@@ -19,70 +19,37 @@
             <th>Vehicle No</th>
             <th>From</th>
             <th>To</th>
-            <th>Basic Amount</th>
-            <th>Service Tax</th>
-            <th>Other Charge</th>
-            <th>Total Freight Amount</th>
+            <th>Total Amount</th>
             <th>Booking Method</th>
-            <th>Vehicle Owner/Broker Name</th>
-            <th>Commission</th>
-            <th>Interest</th>
-            <th>Extra</th>
-            <th>Crane Charge</th>
-            <th>Halting</th>
-            <th>Hire</th>
-            <th>Total Hire</th>
+            <th>Total Payable</th>
             <th>Vehicle Type</th>
-            <th>Advance</th>
-            <th>Advance Percent</th>
-            <th>payments</th>
-            <th>Balance</th>
-            <th>POD</th>
-            <th>Remarks</th>
-            <th>GMR</th>
-            <th>Drivers</th>
           </tr>
         </thead>
         <tbody>
-          <tr ng-repeat="booking in vm.bookings" class="list-group-item">
-            <td> <a ui-sref="bookings.view({ bookingId: booking._id })">View</a> </td>
-            <td>{{booking.lr_date}}</td>
+          <tr ng-repeat="booking in vm.bookings">
+            <td> <a class="btn btn-primary" ui-sref="bookings.view({bookingId: booking._id})">VIEW</a> </td>
+            <td> <a class="btn btn-primary" ui-sref="bookings.edit({bookingId: booking._id})">EDIT</a> </td>
+            <td>{{booking.lr_date | date:'dd/MMM/yyyy'}}</td>
             <td>{{booking.lr_number}}</td>
             <td>{{booking.challan_number}}</td>
             <td>{{booking.branch_area}}</td>
-            <td>{{booking.consigno}}</td>
-            <td>{{booking.consignee}}</td>
             <td>{{booking.package}}</td>
             <td>{{booking.invoice_number}}</td>
-            <td>{{booking.invoice_date}}</td>
+            <td>{{booking.invoice_date | date:'dd/MMM/yyyy'}}</td>
             <td>{{booking.weight}}</td>
             <td>{{booking.vehicle_number}}</td>
             <td>{{booking.from}}</td>
             <td>{{booking.to}}</td>
-            <td>{{booking.basic_amount}}</td>
-            <td>{{booking.service_tax}}</td>
-            <td>{{booking.other_charge}}</td>
-            <td>{{booking.total_freight_amount}}</td>
+            <td>&#8377;  {{vm.convertToFloat(booking.basic_amount) + vm.convertToFloat(booking.service_tax)
+                 + vm.convertToFloat(booking.other_charge)}}</td>
             <td>{{booking.booking_method}}</td>
-            <td>{{booking.vehicle_owner_broker_name}}</td>
-            <td>{{booking.commission}}</td>
-            <td>{{booking.interest}}</td>
-            <td>{{booking.extra}}</td>
-            <td>{{booking.crane_charge}}</td>
-            <td>{{booking.halting}}</td>
-            <td>{{booking.hire}}</td>
-            <td>{{booking.total_hire}}</td>
+            <td>&#8377;  {{vm.convertToFloat(booking.commission) + vm.convertToFloat(booking.interest)
+                  + vm.convertToFloat(booking.extra) + vm.convertToFloat(booking.crane_charge) +
+                  vm.convertToFloat(booking.halting) + vm.convertToFloat(booking.hire)}}</td>
             <td>{{booking.vehicle_type}}</td>
-            <td>{{booking.advance}}</td>
-            <td>{{booking.advance_percent}}</td>
-            <td>{{booking.payments}}</td>
-            <td>{{booking.balance}}</td>
-            <td>{{booking.pod}}</td>
-            <td>{{booking.remarks}}</td>
-            <td>{{booking.gmr}}</td>
-            <td>{{booking.drivers}}</td>
           </tr>
         </tbody>
     </table>
   </div>
+  <uib-pagination boundary-links="true" max-size="5" items-per-page="vm.itemsPerPage" total-items="vm.filterLength" ng-model="vm.currentPage" ng-change="vm.pageChanged()"></uib-pagination>
 </section>

@@ -19,5 +19,5 @@ module.exports = function (app) {
     .delete(bookings.delete);
 
   // Finish by binding the booking middleware
-  app.param('bookingId', bookings.bookingByID);
+  // app.param('bookingId', bookings.bookingByID);
 };

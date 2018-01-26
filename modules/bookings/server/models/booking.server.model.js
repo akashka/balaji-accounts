@@ -35,17 +35,25 @@ var BookingSchema = new Schema({
     type: String,
     default: ''
   },
-  consignor: {
+  from: {
     type: String,
     default: ''
   },
-  consignee: {
+  to: {
     type: String,
     default: ''
   },
   package: {
     type: String,
     default: ''
+  },
+  weight: {
+    type: String,
+    default: ''
+  },
+  consignor: {
+  },
+  consignee: {
   },
   invoice_number: {
     type: String,
@@ -55,19 +63,7 @@ var BookingSchema = new Schema({
     type: Date,
     default: Date.now
   },
-  weight: {
-    type: String,
-    default: ''
-  },
   vehicle_number: {
-    type: String,
-    default: ''
-  },
-  from: {
-    type: String,
-    default: ''
-  },
-  to: {
     type: String,
     default: ''
   },
@@ -83,17 +79,11 @@ var BookingSchema = new Schema({
     type: String,
     default: ''
   },
-  total_freight_amount: {
-    type: String,
-    default: ''
-  },
   booking_method: {
     type: String,
     default: ''
   },
   vehicle_owner_broker_name: {
-    type: String,
-    default: ''
   },
   commission: {
     type: String,
@@ -119,10 +109,6 @@ var BookingSchema = new Schema({
     type: String,
     default: ''
   },
-  total_hire: {
-    type: String,
-    default: ''
-  },
   vehicle_type: {
     type: String,
     default: ''
@@ -131,16 +117,11 @@ var BookingSchema = new Schema({
     type: String,
     default: ''
   },
-  advance_percent: {
-    type: String,
-    default: ''
-  },
-  payments: [],
-  balance: [],
-  pod: [],
-  remarks: [],
-  gmr: [],
-  drivers: [],
+  payments: {},
+  balance: {},
+  pod: {},
+  remarks: "",
+  driver: {},
   user: {
     type: Schema.ObjectId,
     ref: 'User'

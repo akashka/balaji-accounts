@@ -25,10 +25,10 @@ exports.invokeRolesPolicies = function () {
     roles: ['user'],
     allows: [{
       resources: '/api/bookings',
-      permissions: ['get']
+      permissions: '*'
     }, {
       resources: '/api/bookings/:bookingId',
-      permissions: ['get']
+      permissions: '*'
     }]
   }, {
     roles: ['guest'],
