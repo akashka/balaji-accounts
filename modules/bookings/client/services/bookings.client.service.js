@@ -19,8 +19,24 @@
       saveBooking: {
         method: 'POST',
         url: '/api/bookings'
+      },
+      download: {
+        method: 'POST',
+        url: '/api/downloads'
       }
     });
+
+    // Handle successful response
+    function onSuccess(booking) {
+      // Any required internal processing from inside the service, goes here.
+    }
+
+    // Handle error response
+    function onError(errorResponse) {
+      var error = errorResponse.data;
+      // Handle error internally
+      handleError(error);
+    }
 
     angular.extend(Booking, {
       createOrUpdate: function (booking) {
@@ -29,6 +45,10 @@
         } else {
           return this.saveBooking(booking).$promise;
         }
+      },
+      downloads: function(bookingId) {
+        var params = {"bookingId": bookingId};
+        return this.download(params).$promise;
       }
     });
 
@@ -58,5 +78,6 @@
       // Log error
       $log.error(error);
     }
+
   }
 }());

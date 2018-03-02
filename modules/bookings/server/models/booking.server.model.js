@@ -119,6 +119,14 @@ var BookingSchema = new Schema({
   },
   payments: {},
   balance: {},
+  payments_cleared: {
+    type: String,
+    default: ''
+  },
+  balance_cleared: {
+    type: String,
+    default: ''
+  },
   pod: {},
   remarks: "",
   driver: {},

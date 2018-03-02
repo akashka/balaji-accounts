@@ -50,7 +50,7 @@
         return this.deleteProvider({
           provider: provider // api expects provider as a querystring parameter
         }).$promise;
-      },
+      }, 
       requestPasswordReset: function (credentials) {
         return this.sendPasswordResetToken(credentials).$promise;
       },

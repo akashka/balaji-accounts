@@ -1,0 +1,62 @@
+<section>
+  <div class="page-header">
+    <h1>Cheques</h1>
+  </div>
+  <div class="list-group table-responsive">
+    <table class="table table-hover">
+        <thead>
+          <tr>
+            <th> </th>
+            <th> </th>
+            <th>LR Date</th>
+            <th>LR No</th>
+            <th>Challan No</th>
+            <th>Branch/Area</th>
+            <th>Invoice No</th>
+            <th>Invoice Date</th>
+            <th>Total Amount</th>
+            <th>Cheque Date</th>
+            <th>Cheque Number</th>
+            <th>Cheque Amount</th>
+          </tr>
+        </thead>
+        <tbody ng-repeat="booking in vm.bookings">
+          
+          <tr ng-show="booking.payments.payment_mode != 'cash'">
+            <td> <a class="btn btn-primary" ui-sref="vm.bookings.view({bookingId: booking._id})">VIEW</a> </td>
+            <td> <a class="btn btn-primary" ng-click="vm.onPaymentDone(booking._id, 'pay')" ng-disabled="booking.payments_cleared != ''">CLEARED</a> </td>
+            <td>{{booking.lr_date | date:'dd/MMM/yyyy'}}</td>
+            <td>{{booking.lr_number}}</td>
+            <td>{{booking.challan_number}}</td>
+            <td>{{booking.branch_area}}</td>
+            <td>{{booking.invoice_number}}</td>
+            <td>{{booking.invoice_date | date:'dd/MMM/yyyy'}}</td>
+            <td>&#8377;  {{vm.convertToFloat(booking.basic_amount) + vm.convertToFloat(booking.service_tax)
+                 + vm.convertToFloat(booking.other_charge)}}</td>
+            <td>{{booking.payments.cheque_date | date:'dd/MMM/yyyy'}}</td>
+            <td>{{booking.payments.cheque_no}}</td>
+            <td>&#8377;  {{booking.advance}}</td>
+          </tr>
+
+          <tr>
+            <td> <a class="btn btn-primary" ui-sref="vm.bookings.view({bookingId: booking._id})">VIEW</a> </td>
+            <td> <a class="btn btn-primary" ng-click="vm.onPaymentDone(booking._id, 'bal')" ng-disabled="booking.balance_cleared != ''">CLEARED</a> </td>
+            <td>{{booking.lr_date | date:'dd/MMM/yyyy'}}</td>
+            <td>{{booking.lr_number}}</td>
+            <td>{{booking.challan_number}}</td>
+            <td>{{booking.branch_area}}</td>
+            <td>{{booking.invoice_number}}</td>
+            <td>{{booking.invoice_date | date:'dd/MMM/yyyy'}}</td>
+            <td>&#8377;  {{vm.convertToFloat(booking.basic_amount) + vm.convertToFloat(booking.service_tax)
+                 + vm.convertToFloat(booking.other_charge)}}</td>
+            <td>{{booking.balance.cheque_date | date:'dd/MMM/yyyy'}}</td>
+            <td>{{booking.balance.cheque_no}}</td>
+            <td>&#8377;  {{vm.convertToFloat(booking.basic_amount) + vm.convertToFloat(booking.service_tax)
+                 + vm.convertToFloat(booking.other_charge) - booking.advance}}</td>
+          </tr>
+          
+        </tbody>
+    </table>
+  </div>
+  <uib-pagination boundary-links="true" max-size="5" items-per-page="vm.itemsPerPage" total-items="vm.filterLength" ng-model="vm.currentPage" ng-change="vm.pageChanged()"></uib-pagination>
+</section>

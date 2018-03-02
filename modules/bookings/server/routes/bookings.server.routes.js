@@ -10,7 +10,11 @@ module.exports = function (app) {
   // Bookings collection routes
   app.route('/api/bookings').all(bookingsPolicy.isAllowed)
     .get(bookings.list)
+    .put(bookings.update)    
     .post(bookings.create);
+
+  app.route('/api/downloads/:bookingId')
+    .get(bookings.downloadByID);
 
   // Single booking routes
   app.route('/api/bookings/:bookingId').all(bookingsPolicy.isAllowed)

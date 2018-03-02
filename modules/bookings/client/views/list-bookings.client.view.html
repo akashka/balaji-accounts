@@ -2,11 +2,80 @@
   <div class="page-header">
     <h1>Bookings</h1>
   </div>
+  <div class="row">
+        <div class="col-sm-4 col-md-4">
+            <div class="form-group">
+                <label for="lr_number" class="col-sm-5 control-label">LR Number:</label>
+                <div class="col-sm-7">
+                    <input id="lr_number" type="text" class="form-control" ng-model="vm.search.lr_number" 
+                        placeholder="Enter LR Number"/>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4 col-md-4">
+            <div class="form-group">
+                <label for="lr_number" class="col-sm-5 control-label">challan Number:</label>
+                <div class="col-sm-7">
+                    <input id="challan_number" type="text" class="form-control" ng-model="vm.search.challan_number" 
+                        placeholder="Enter Challan Number"/>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4 col-md-4">
+            <div class="form-group">
+                <label for="lr_number" class="col-sm-5 control-label">Invoice Number:</label>
+                <div class="col-sm-7">
+                    <input id="challan_number" type="text" class="form-control" ng-model="vm.search.invoice_number" 
+                        placeholder="Enter Invoice Number"/>
+                </div>
+            </div>
+        </div>
+  </div>
+  <br/>
+  <div class="row">
+        <div class="col-sm-4 col-md-4">
+            <div class="form-group">
+                <label for="lr_number" class="col-sm-5 control-label">LR From:</label>
+                <div class="col-sm-7">
+                  <p class="input-group">
+                      <input type="text" class="form-control" uib-datepicker-popup="dd-MMM-yyyy" ng-model="vm.search.lr_from" 
+                          is-open="vm.lr_from.isOpened" datepicker-options="vm.dateOptions"/>
+                      <span class="input-group-btn">
+                          <button type="button" class="btn btn-default" ng-click="vm.selectDate($event, 1)"><i class="glyphicon glyphicon-calendar"></i></button>
+                      </span>
+                  </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4 col-md-4">
+            <div class="form-group">
+                <label for="lr_number" class="col-sm-5 control-label">LR To:</label>
+                <div class="col-sm-7">
+                    <p class="input-group">
+                      <input type="text" class="form-control" uib-datepicker-popup="dd-MMM-yyyy" ng-model="vm.search.lr_to" 
+                          is-open="vm.lr_to.isOpened" datepicker-options="vm.dateOptions"/>
+                      <span class="input-group-btn">
+                          <button type="button" class="btn btn-default" ng-click="vm.selectDate($event, 2)"><i class="glyphicon glyphicon-calendar"></i></button>
+                      </span>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="page-controls" style="text-align: center;">
+            <div class="row" role="toolbar">
+                <button type="button" class="btn btn-default" ng-click="vm.searches()">Search</button>
+                <button type="button" class="btn btn-default" ng-click="vm.reset()">Reset</button>
+                <button type="button" class="btn btn-default" ng-click="vm.gotoNewBooking()">New Order</button>
+            </div>
+        </div>
+  </div>
+  <br/><hr/>
   <div class="list-group table-responsive">
     <table class="table table-hover">
         <thead>
           <tr>
             <th> </th>
+            <!-- <th> </th> -->
             <th> </th>
             <th>LR Date</th>
             <th>LR No</th>
@@ -28,7 +97,8 @@
         <tbody>
           <tr ng-repeat="booking in vm.bookings">
             <td> <a class="btn btn-primary" ui-sref="bookings.view({bookingId: booking._id})">VIEW</a> </td>
-            <td> <a class="btn btn-primary" ui-sref="bookings.edit({bookingId: booking._id})">EDIT</a> </td>
+            <!-- <td> <a class="btn btn-primary" ui-sref="bookings.edit({bookingId: booking._id})">EDIT</a> </td> -->
+            <td> <div class="btn btn-primary" ng-click="vm.download(booking._id)">DOWNLOAD</div> </td>
             <td>{{booking.lr_date | date:'dd/MMM/yyyy'}}</td>
             <td>{{booking.lr_number}}</td>
             <td>{{booking.challan_number}}</td>

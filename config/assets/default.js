@@ -24,6 +24,11 @@ module.exports = {
         'public/lib/angular-ui-notification/dist/angular-ui-notification.js',
         'public/lib/angular-ui-router/release/angular-ui-router.js',
         'public/lib/owasp-password-strength-test/owasp-password-strength-test.js',
+        'public/lib/moment/moment.js',
+        'public/lib/angular-moment/angular-moment.js',
+        'public/lib/pdfmake/build/pdfmake.min.js',
+        'public/lib/pdfmake/build/vfs_fonts.js',
+        'public/lib/angular-typeahead/dist/angular-typeahead.js'
         // endbower
       ],
       tests: ['public/lib/angular-mocks/angular-mocks.js']

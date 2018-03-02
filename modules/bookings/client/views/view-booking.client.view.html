@@ -15,7 +15,7 @@
           <div class="col-sm-6 col-md-6">
               <div class="form-group">
                   <label for="lr_date" class="col-sm-4 control-label">LR Date:</label>
-                  <div class="col-sm-8"> {{vm.bookingForm.lr_date}} </div>
+                  <div class="col-sm-8"> {{vm.bookingForm.lr_date | date :  "dd/MMM/yyyy" }} </div>
               </div>
           </div>
           <div class="col-sm-6 col-md-6">
@@ -158,7 +158,7 @@
                               <div class="form-group">
                                   <label for="invoice_date" class="col-sm-4 control-label">Invoice Date:</label>
                                   <div class="col-sm-8">
-                                      <p class="input-group date">{{vm.bookingForm.invoice_date}}</p>
+                                      <p class="input-group date">{{vm.bookingForm.invoice_date | date :  "dd/MMM/yyyy"}}</p>
                                   </div>
                               </div>
                           </div>
@@ -361,7 +361,9 @@
                               <div class="form-group">
                                   <label for="advance_perc" class="col-sm-4 control-label">Advance (%):</label>
                                   <div class="col-sm-8">
-                                              {{vm.advance_perc}} % 
+                                              {{(vm.bookingForm.advance * 100 / (vm.convertToFloat(vm.bookingForm.commission) + vm.convertToFloat(vm.bookingForm.interest) + 
+                                              vm.convertToFloat(vm.bookingForm.extra) + vm.convertToFloat(vm.bookingForm.crane_charge) + 
+                                              vm.convertToFloat(vm.bookingForm.halting) + vm.convertToFloat(vm.bookingForm.hire))) | number:2}} % 
                                   </div>
                               </div>
                           </div>
@@ -382,7 +384,7 @@
                           <div class="col-md-6" ng-show="vm.bookingForm.payments.payment_mode == 'cheque'">
                               <div class="form-group">
                                   <label for="cheque_no" class="col-sm-4 control-label">Cheque Date:</label>
-                                  <div class="col-sm-8">{{vm.bookingForm.payments.cheque_date}}</div>
+                                  <div class="col-sm-8">{{vm.bookingForm.payments.cheque_date | date :  "dd/MMM/yyyy"}}</div>
                               </div>
                           </div>
                           <div class="col-sm-6">
@@ -396,13 +398,13 @@
                           </div> 
                           <div class="col-md-6">
                               <div class="form-group">
-                                  <label for="cheque_no" class="col-sm-4 control-label">Cheque Date:</label>
-                                  <div class="col-sm-8">{{vm.bookingForm.balance.cheque_date}}</div>
+                                  <label for="cheque_no" class="col-sm-4 control-label">Balance Cheque Date:</label>
+                                  <div class="col-sm-8">{{vm.bookingForm.balance.cheque_date | date :  "dd/MMM/yyyy"}}</div>
                               </div>
                           </div>
                           <div class="col-md-6">
                               <div class="form-group">
-                                  <label for="cheque_no" class="col-sm-4 control-label">Cheque No:</label>
+                                  <label for="cheque_no" class="col-sm-4 control-label">Balance Cheque No:</label>
                                   <div class="col-sm-8">{{vm.bookingForm.balance.cheque_no}}</div>
                               </div>
                           </div>
@@ -426,13 +428,13 @@
                           <div class="col-md-6">
                               <div class="form-group">
                                   <label for="pod_receipt" class="col-sm-4 control-label">Receipt Date:</label>
-                                  <div class="col-sm-8">{{vm.bookingForm.pod.receipt}}</div>
+                                  <div class="col-sm-8">{{vm.bookingForm.pod.receipt | date :  "dd/MMM/yyyy"}}</div>
                               </div>
                           </div>
                           <div class="col-md-6">
                               <div class="form-group">
                                   <label for="pod_received" class="col-sm-4 control-label">Received Date:</label>
-                                  <div class="col-sm-8">{{vm.bookingForm.pod.received}}</div>
+                                  <div class="col-sm-8">{{vm.bookingForm.pod.received | date :  "dd/MMM/yyyy"}}</div>
                               </div>
                           </div>
                           <div class="col-md-6">
@@ -461,8 +463,8 @@
 
       <div class="page-controls">
           <div class="row text-right" role="toolbar">
-              <button type="button" class="btn btn-default" ng-click="vm.edit()">Edit</button>
-              <button type="button" class="btn btn-default" ng-click="vm.gotoNewBooking()">New Order</button>
+              <button type="button" class="btn btn-default" ui-sref="bookings.edit({bookingId: vm.bookingForm._id})">Edit</button>
+              <button type="button" class="btn btn-default" ui-sref="bookings.create()">New Order</button>
           </div>
           <br/>
       </div>

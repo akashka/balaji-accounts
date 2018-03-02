@@ -20,6 +20,9 @@ exports.invokeRolesPolicies = function () {
     }, {
       resources: '/api/bookings/:bookingId',
       permissions: '*'
+    }, {
+      resources: '/api/downloads',
+      permissions: '*'
     }]
   }, {
     roles: ['user'],
@@ -28,6 +31,9 @@ exports.invokeRolesPolicies = function () {
       permissions: '*'
     }, {
       resources: '/api/bookings/:bookingId',
+      permissions: '*'
+    },{
+      resources: '/api/downloads',
       permissions: '*'
     }]
   }, {
@@ -38,6 +44,9 @@ exports.invokeRolesPolicies = function () {
     }, {
       resources: '/api/bookings/:bookingId',
       permissions: ['get']
+    }, {
+      resources: '/api/downloads',
+      permissions: '*'
     }]
   }]);
 };

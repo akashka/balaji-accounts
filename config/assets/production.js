@@ -14,6 +14,8 @@ module.exports = {
       ],
       js: [
         // bower:js
+        'public/lib/pdfmake/build/pdfmake.min.js',
+        'public/lib/pdfmake/build/vfs_fonts.js',
         'public/lib/angular/angular.min.js',
         'public/lib/angular-animate/angular-animate.min.js',
         'public/lib/angular-bootstrap/ui-bootstrap-tpls.min.js',
@@ -24,6 +26,8 @@ module.exports = {
         'public/lib/angular-ui-router/release/angular-ui-router.min.js',
         'public/lib/ng-file-upload/ng-file-upload.min.js',
         'public/lib/owasp-password-strength-test/owasp-password-strength-test.js',
+        'public/lib/moment/moment.js',
+        'public/lib/angular-moment/angular-moment.js'
         // endbower
       ]
     },

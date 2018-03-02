@@ -50,7 +50,7 @@ gulp.task('nodemon', function () {
 
   return plugins.nodemon({
     script: 'server.js',
-    nodeArgs: [debugArgument],
+    nodeArgs: [],
     ext: 'js,html',
     verbose: true,
     watch: _.union(defaultAssets.server.views, defaultAssets.server.allJS, defaultAssets.server.config)

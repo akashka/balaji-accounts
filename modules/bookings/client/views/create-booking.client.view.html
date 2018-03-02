@@ -18,13 +18,11 @@
                     <div class="form-group">
                         <label for="lr_date" class="col-sm-4 control-label">LR Date:</label>
                         <div class="col-sm-8" ng-hide="vm.bookingCompleted">
-                            <p class="input-group date">
-                                <input type="text" id="lr_date" class="form-control" datepicker-popup="dd-MMM-yyyy" placeholder="Enter valid date" 
-                                    ng-model="vm.bookingForm.lr_date" is-open="vm.dateset.lr_date.isOpened" ng-required="true" />
+                            <p class="input-group">
+                                <input type="text" class="form-control" uib-datepicker-popup="dd-MMM-yyyy" ng-model="vm.bookingForm.lr_date" 
+                                    is-open="vm.dateset.lr_date.isOpened" datepicker-options="vm.dateOptions" ng-required="true"/>
                                 <span class="input-group-btn">
-                                    <button type="button" class="btn btn-default btn-date" ng-click="selectDate($event, 1)">
-                                      <i class="glyphicon glyphicon-calendar"></i>
-                                    </button>
+                                    <button type="button" class="btn btn-default" ng-click="vm.selectDate($event, 1)"><i class="glyphicon glyphicon-calendar"></i></button>
                                 </span>
                             </p>
                         </div>
@@ -38,11 +36,11 @@
                         <label for="lr_number" class="col-sm-4 control-label">LR Number:</label>
                         <div class="col-sm-8" ng-hide="vm.bookingCompleted">
                             <input id="lr_number" type="text" class="form-control" ng-model="vm.bookingForm.lr_number" 
-                                placeholder="Enter LR Number" ng-required="true" />
+                                placeholder="Enter LR Number" ng-required="true" ng-change="vm.onLrNumberChange()"/>
                              <div ng-messages="vm.bookingForm.lr_number.$error" ng-show="vm.bookingForm.lr_number.$dirty && vm.bookingForm.lr_number.$invalid" class="error-message">
                                 <div ng-message="required">LR Number is required</div>
-                                <div ng-message="maxlength">LR Number cannot be more than 10 characters</div>
                             </div> 
+                            <div ng-show="vm.duplicateLrNumber" style="color: orange;">LR Number already exists</div>
                         </div>
                         <div class="col-sm-8" ng-show="vm.bookingCompleted">
                             {{vm.bookingForm.lr_number}}
@@ -57,10 +55,11 @@
                         <label for="challan_number" class="col-sm-4 control-label">Challan Number:</label>
                         <div class="col-sm-8" ng-hide="vm.bookingCompleted">
                             <input id="challan_number" type="text" class="form-control" ng-model="vm.bookingForm.challan_number" 
-                                placeholder="Enter Challan Number" />
+                                placeholder="Enter Challan Number" ng-change="vm.onChallanNumberChange()" />
                              <div ng-messages="vm.bookingForm.challan_number.$error" ng-show="vm.bookingForm.challan_number.$dirty && vm.bookingForm.challan_number.$invalid" class="error-message">
                                 <div ng-message="required">Challan Number is required</div>
                             </div> 
+                            <div ng-show="vm.duplicateChallanNumber" style="color: orange;">Challan Number already exists</div>
                         </div>
                         <div class="col-sm-8" ng-show="vm.bookingCompleted">
                             {{vm.bookingForm.challan_number}}
@@ -72,7 +71,8 @@
                         <label for="branch_area" class="col-sm-4 control-label">Branch / Area:</label>
                         <div class="col-sm-8" ng-hide="vm.bookingCompleted">
                             <input id="branch_area" type="text" class="form-control" ng-model="vm.bookingForm.branch_area" 
-                                placeholder="Enter Branch / Area" ng-required="true" />
+                                placeholder="Enter Branch / Area" ng-required="true" 
+                                uib-typeahead="state for state in states | filter:$viewValue | limitTo:8"/>
                              <div ng-messages="vm.bookingForm.branch_area.$error" ng-show="vm.bookingForm.branch_area.$dirty && vm.bookingForm.branch_area.$invalid" class="error-message">
                                 <div ng-message="required">Branch / Area is required</div>
                             </div> 
@@ -240,13 +240,11 @@
                                     <div class="form-group">
                                         <label for="invoice_date" class="col-sm-4 control-label">Invoice Date:</label>
                                         <div class="col-sm-8">
-                                            <p class="input-group date">
-                                                <input type="text" id="invoice_date" class="form-control" datepicker-popup="dd-MMM-yyyy" placeholder="Enter valid date" 
-                                                    ng-model="vm.bookingForm.invoice_date" is-open="vm.dateset.invoice_date.isOpened" />
+                                            <p class="input-group">
+                                                <input type="text" class="form-control" uib-datepicker-popup="dd-MMM-yyyy" ng-model="vm.bookingForm.invoice_date" 
+                                                    is-open="vm.dateset.invoice_date.isOpened" datepicker-options="vm.dateOptions"/>
                                                 <span class="input-group-btn">
-                                                    <button type="button" class="btn btn-default btn-date" ng-click="selectDate($event, 2)">
-                                                    <i class="glyphicon glyphicon-calendar"></i>
-                                                    </button>
+                                                    <button type="button" class="btn btn-default" ng-click="vm.selectDate($event, 2)"><i class="glyphicon glyphicon-calendar"></i></button>
                                                 </span>
                                             </p>
                                         </div>
@@ -595,13 +593,11 @@
                                     <div class="form-group">
                                         <label for="cheque_no" class="col-sm-4 control-label">Cheque Date:</label>
                                         <div class="col-sm-8">
-                                            <p class="input-group date">
-                                                <input type="text" id="cheque_date" class="form-control" datepicker-popup="dd-MMM-yyyy" placeholder="Enter valid date" 
-                                                    ng-model="vm.bookingForm.payments.cheque_date" is-open="vm.cheque_date.isOpened" />
+                                            <p class="input-group">
+                                                <input type="text" class="form-control" uib-datepicker-popup="dd-MMM-yyyy" ng-model="vm.bookingForm.payments.cheque_date" 
+                                                    is-open="vm.dateset.cheque_date.isOpened" datepicker-options="vm.dateOptions"/>
                                                 <span class="input-group-btn">
-                                                    <button type="button" class="btn btn-default btn-date" ng-click="selectDate($event, 1)">
-                                                    <i class="glyphicon glyphicon-calendar"></i>
-                                                    </button>
+                                                    <button type="button" class="btn btn-default" ng-click="vm.selectDate($event, 3)"><i class="glyphicon glyphicon-calendar"></i></button>
                                                 </span>
                                             </p>
                                         </div>
@@ -618,15 +614,13 @@
                                 </div> 
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="cheque_no" class="col-sm-4 control-label">Cheque Date:</label>
+                                        <label for="cheque_no" class="col-sm-4 control-label">Balance Cheque Date:</label>
                                         <div class="col-sm-8">
-                                            <p class="input-group date">
-                                                <input type="text" id="cheque_date" class="form-control" datepicker-popup="dd-MMM-yyyy" placeholder="Enter valid date" 
-                                                    ng-model="vm.bookingForm.balance.cheque_date" is-open="vm.cheque_date.isOpened" />
+                                            <p class="input-group">
+                                                <input type="text" class="form-control" uib-datepicker-popup="dd-MMM-yyyy" ng-model="vm.bookingForm.balance.cheque_date" 
+                                                    is-open="vm.dateset.balance_cheque_date.isOpened" datepicker-options="vm.dateOptions"/>
                                                 <span class="input-group-btn">
-                                                    <button type="button" class="btn btn-default btn-date" ng-click="selectDate($event, 1)">
-                                                    <i class="glyphicon glyphicon-calendar"></i>
-                                                    </button>
+                                                    <button type="button" class="btn btn-default" ng-click="vm.selectDate($event, 4)"><i class="glyphicon glyphicon-calendar"></i></button>
                                                 </span>
                                             </p>
                                         </div>
@@ -634,7 +628,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="cheque_no" class="col-sm-4 control-label">Cheque No:</label>
+                                        <label for="cheque_no" class="col-sm-4 control-label">Balance Cheque No:</label>
                                         <div class="col-sm-8">
                                             <input id="cheque_no" type="text" class="form-control" ng-model="vm.bookingForm.balance.cheque_no" 
                                                 placeholder="Enter Cheque Number"/>
@@ -662,13 +656,11 @@
                                     <div class="form-group">
                                         <label for="pod_receipt" class="col-sm-4 control-label">Receipt Date:</label>
                                         <div class="col-sm-8">
-                                            <p class="input-group date">
-                                                <input type="text" id="pod_receipt" class="form-control" datepicker-popup="dd-MMM-yyyy" placeholder="Enter valid date" 
-                                                    ng-model="vm.bookingForm.pod.receipt" is-open="vm.cheque_date.isOpened" />
+                                            <p class="input-group">
+                                                <input type="text" class="form-control" uib-datepicker-popup="dd-MMM-yyyy" ng-model="vm.bookingForm.pod.receipt" 
+                                                    is-open="vm.dateset.pod_receipt.isOpened" datepicker-options="vm.dateOptions"/>
                                                 <span class="input-group-btn">
-                                                    <button type="button" class="btn btn-default btn-date" ng-click="selectDate($event, 1)">
-                                                    <i class="glyphicon glyphicon-calendar"></i>
-                                                    </button>
+                                                    <button type="button" class="btn btn-default" ng-click="vm.selectDate($event, 5)"><i class="glyphicon glyphicon-calendar"></i></button>
                                                 </span>
                                             </p>
                                         </div>
@@ -678,13 +670,11 @@
                                     <div class="form-group">
                                         <label for="pod_received" class="col-sm-4 control-label">Received Date:</label>
                                         <div class="col-sm-8">
-                                            <p class="input-group date">
-                                                <input type="text" id="pod_received" class="form-control" datepicker-popup="dd-MMM-yyyy" placeholder="Enter valid date" 
-                                                    ng-model="vm.bookingForm.pod.received" is-open="vm.cheque_date.isOpened" />
+                                            <p class="input-group">
+                                                <input type="text" class="form-control" uib-datepicker-popup="dd-MMM-yyyy" ng-model="vm.bookingForm.pod.received" 
+                                                    is-open="vm.dateset.pod_received.isOpened" datepicker-options="vm.dateOptions"/>
                                                 <span class="input-group-btn">
-                                                    <button type="button" class="btn btn-default btn-date" ng-click="selectDate($event, 1)">
-                                                    <i class="glyphicon glyphicon-calendar"></i>
-                                                    </button>
+                                                    <button type="button" class="btn btn-default" ng-click="vm.selectDate($event, 6)"><i class="glyphicon glyphicon-calendar"></i></button>
                                                 </span>
                                             </p>
                                         </div>

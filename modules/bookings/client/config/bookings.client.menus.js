@@ -20,5 +20,11 @@
       roles: ['admin','user']
     });
 
+    menuService.addMenuItem('topbar', {
+      title: 'Cheques',
+      state: 'bookings.cheque',
+      roles: ['admin','user']
+    });
+
   }
 }());

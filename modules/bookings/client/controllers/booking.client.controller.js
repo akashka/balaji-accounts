@@ -5,12 +5,13 @@
     .module('bookings')
     .controller('BookingsAdminController', BookingsAdminController);
 
-  BookingsAdminController.$inject = ['$scope', '$state', '$window', 'BookingsService', 'Authentication', 'Notification'];
+  BookingsAdminController.$inject = ['$scope', '$state', '$window', 'BookingsService', 'Authentication', 'Notification', 'bookingResolve'];
 
-  function BookingsAdminController($scope, $state, $window, booking, Authentication, Notification) {
+  function BookingsAdminController($scope, $state, $window, booking, Authentication, Notification, bookingResolve) {
     var vm = this;
     vm.authentication = Authentication;
     vm.bookings = angular.toJson(booking);
+    vm.allBookings = booking.query();
 
     vm.convertToFloat = function(stri) {
       if(stri == null || stri == undefined) return 0;
@@ -24,7 +25,7 @@
           $state.go('admin.bookings.list');
           Notification.success({ message: '<i class="glyphicon glyphicon-ok"></i> Booking deleted successfully!' });
         });
-      }s
+      }
     }
 
     // Save Bookiing
@@ -101,6 +102,8 @@
           cheque_no: "",
           cheque_date: ""
         },
+        payments_cleared: "",
+        balance_cleared: "",
         pod: {
           receipt: "",
           received: "",
@@ -131,11 +134,10 @@
     
     };
 
-    vm.reset();
     if($state.params.bookingId) {
-      for(var i = 0; i < vm.bookings.length; i++){
-        if($state.params.bookingId == vm.bookings[i]._id) vm.bookingForm = vm.bookings[i];
-      }
+      vm.bookingForm = bookingResolve[0];
+    } else {
+      vm.reset();
     }
 
     vm.gotoNewBooking = function() {
@@ -143,7 +145,12 @@
     };
 
     vm.selectDate = function($event, num) {
-
+      if(num == 1) { vm.dateset.lr_date.isOpened = true; }
+      if(num == 2) { vm.dateset.invoice_date.isOpened = true; }
+      if(num == 3) { vm.dateset.cheque_date.isOpened = true; }
+      if(num == 4) { vm.dateset.balance_cheque_date.isOpened = true; }
+      if(num == 5) { vm.dateset.pod_receipt.isOpened = true; }
+      if(num == 6) { vm.dateset.pod_received.isOpened = true; }
     };
 
     vm.onAdvanceChange = function() {
@@ -166,6 +173,36 @@
       vm.bookingForm.advance = 0;
       vm.advance_perc = 0;
     }
+
+    vm.dateOptions = {
+      formatYear: 'yy',
+      maxDate: new Date(2020, 5, 22),
+      minDate: new Date(),
+      startingDay: 1
+    };
+
+    vm.dateset.lr_date = { isOpened: false };
+    vm.dateset.invoice_date = { isOpened: false };
+    vm.dateset.cheque_date = { isOpened: false };
+    vm.dateset.balance_cheque_date = { isOpened: false };
+    vm.dateset.pod_receipt = { isOpened: false };
+    vm.dateset.pod_received = { isOpened: false };
+
+    vm.duplicateLrNumber = false;
+    vm.onLrNumberChange = function() {
+      vm.duplicateLrNumber = false;
+      for(var a = 0; a < vm.allBookings.length; a++) {
+        if(vm.allBookings[a].lr_number == vm.bookingForm.lr_number) vm.duplicateLrNumber = true;
+      }
+    }
+
+    vm.duplicateChallanNumber = false;
+    vm.onChallanNumberChange = function() {
+      vm.duplicateChallanNumber = false;
+      for(var a = 0; a < vm.allBookings.length; a++) {
+        if(vm.allBookings[a].challan_number == vm.bookingForm.challan_number) vm.duplicateChallanNumber = true;
+      }
+    }    
 
   }
 }());
