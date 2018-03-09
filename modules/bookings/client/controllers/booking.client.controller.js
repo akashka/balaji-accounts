@@ -115,7 +115,9 @@
         driver: {
           name: "",
           numb: ""
-        }
+        },
+        bank: "axis",
+        show_vehicle_no: false
       };
 
       vm.bookingForm.payments.amount = vm.bookingForm.advance;
@@ -154,8 +156,9 @@
     };
 
     vm.onAdvanceChange = function() {
-      var total = vm.convertToFloat(vm.bookingForm.basic_amount) 
-        + vm.convertToFloat(vm.bookingForm.service_tax) + vm.convertToFloat(vm.bookingForm.other_charge);
+      var total = vm.convertToFloat(vm.bookingForm.commission) + vm.convertToFloat(vm.bookingForm.extra)
+           + vm.convertToFloat(vm.bookingForm.interest) + vm.convertToFloat(vm.bookingForm.crane_charge)
+           + vm.convertToFloat(vm.bookingForm.halting) + vm.convertToFloat(vm.bookingForm.hire);
       if(total == 0) {
         vm.advance_perc = 0;  
       } else {
@@ -164,8 +167,9 @@
     }
 
     vm.onAdvancePercChange = function() {
-      var total = vm.convertToFloat(vm.bookingForm.basic_amount) 
-        + vm.convertToFloat(vm.bookingForm.service_tax) + vm.convertToFloat(vm.bookingForm.other_charge);
+      var total = vm.convertToFloat(vm.bookingForm.commission) + vm.convertToFloat(vm.bookingForm.extra)
+           + vm.convertToFloat(vm.bookingForm.interest) + vm.convertToFloat(vm.bookingForm.crane_charge)
+           + vm.convertToFloat(vm.bookingForm.halting) + vm.convertToFloat(vm.bookingForm.hire);
       vm.bookingForm.advance = (vm.convertToFloat(vm.advance_perc) / 100 * total).toFixed(2);
     }
 
@@ -203,6 +207,16 @@
         if(vm.allBookings[a].challan_number == vm.bookingForm.challan_number) vm.duplicateChallanNumber = true;
       }
     }    
+
+    vm.onBankChange = function(name) {
+        vm.bookingForm.bank = name;
+    }
+    vm.onBankChange("axis");
+
+    vm.onShowVehicleNoChange = function(bl) {
+        vm.bookingForm.show_vehicle_no = bl;
+    }
+    vm.onShowVehicleNoChange(false);
 
   }
 }());

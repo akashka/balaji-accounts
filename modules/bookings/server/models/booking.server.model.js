@@ -133,6 +133,14 @@ var BookingSchema = new Schema({
   user: {
     type: Schema.ObjectId,
     ref: 'User'
+  },
+  bank: {
+    type: String,
+    default: ''
+  },
+  show_vehicle_no: {
+    type: Boolean,
+    default: false
   }
 });
 

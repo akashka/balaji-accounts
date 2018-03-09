@@ -285,7 +285,7 @@
                             <div class="panel-body">
                                 <div class="col-sm-6 col-md-6">
                                     <div class="form-group">
-                                        <label for="service_tax" class="col-sm-4 control-label">Service Tax:</label>
+                                        <label for="service_tax" class="col-sm-4 control-label">GST:</label>
                                         <div class="col-sm-8">
                                             <p class="input-group date">
                                                 <span class="input-group-btn">
@@ -386,7 +386,7 @@
                                             <div class="col-sm-8">
                                                 <select class="form-control" id="vehicle_type" ng-model="vm.bookingForm.vehicle_type">
                                                     <option disabled selected value="">-- choose a Vehicle Type --</option>
-                                                    <option value="contracted_vehicle">Contracted Vehicle</option>
+                                                    <option value="company_vehicle">Company Vehicle</option>
                                                     <option value="market_vehicle">Market Vehicle</option>
                                                 </select>
                                             </div>
@@ -414,7 +414,7 @@
                                 <div class="col-md-6">
                                     <div class="row">
                                         <div class="form-group">
-                                            <label for="commission" class="col-sm-4 control-label">Commission:</label>
+                                            <label for="commission" class="col-sm-4 control-label">Extra Payable:</label>
                                             <div class="col-sm-8">
                                                 <p class="input-group date">
                                                     <span class="input-group-btn">
@@ -576,6 +576,7 @@
                                                 <option disabled selected value="">-- choose a Payment Mode --</option>
                                                 <option value="cash">Cash</option>
                                                 <option value="cheque">Cheque</option>
+                                                <option value="neft">Neft</option>
                                             </select>
                                         </div>
                                     </div>
@@ -592,6 +593,29 @@
                                 <div class="col-md-6" ng-show="vm.bookingForm.payments.payment_mode == 'cheque'">
                                     <div class="form-group">
                                         <label for="cheque_no" class="col-sm-4 control-label">Cheque Date:</label>
+                                        <div class="col-sm-8">
+                                            <p class="input-group">
+                                                <input type="text" class="form-control" uib-datepicker-popup="dd-MMM-yyyy" ng-model="vm.bookingForm.payments.cheque_date" 
+                                                    is-open="vm.dateset.cheque_date.isOpened" datepicker-options="vm.dateOptions"/>
+                                                <span class="input-group-btn">
+                                                    <button type="button" class="btn btn-default" ng-click="vm.selectDate($event, 3)"><i class="glyphicon glyphicon-calendar"></i></button>
+                                                </span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6" ng-show="vm.bookingForm.payments.payment_mode == 'neft'">
+                                    <div class="form-group">
+                                        <label for="cheque_no" class="col-sm-4 control-label">NEFT No:</label>
+                                        <div class="col-sm-8">
+                                            <input id="cheque_no" type="text" class="form-control" ng-model="vm.bookingForm.payments.cheque_no" 
+                                                placeholder="Enter NEFT Number"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6" ng-show="vm.bookingForm.payments.payment_mode == 'neft'">
+                                    <div class="form-group">
+                                        <label for="cheque_no" class="col-sm-4 control-label">NEFT Date:</label>
                                         <div class="col-sm-8">
                                             <p class="input-group">
                                                 <input type="text" class="form-control" uib-datepicker-popup="dd-MMM-yyyy" ng-model="vm.bookingForm.payments.cheque_date" 
@@ -703,6 +727,28 @@
                                         <div class="col-sm-8">
                                             <input id="gmr" type="text" class="form-control" ng-model="vm.bookingForm.pod.gmr"
                                                 placeholder="Enter GMR"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="gmr" class="col-sm-4 control-label">Bank:  <span style="color:blue;font-size:12px;"> {{vm.bookingForm.bank}} </span></label>
+                                        <div class="col-sm-8">
+                                            <div class="btn-group">
+                                                <label class="btn btn-primary" ng-model="vm.bookingForm.bank" btn-radio="'axis'" ng-class="{active : vm.bookingForm.bank === 'axis'}" ng-click="vm.onBankChange('axis')">Axis Bank</label>
+                                                <label class="btn btn-primary" ng-model="vm.bookingForm.bank" btn-radio="'icici'" ng-class="{active : vm.bookingForm.bank === 'icici'}" ng-click="vm.onBankChange('icici')">ICICI Bank</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="gmr" class="col-sm-4 control-label">Show Vehicle No: <span style="color:blue;font-size:12px;"> {{vm.bookingForm.show_vehicle_no}}  </span></label>
+                                        <div class="col-sm-8">
+                                            <div class="btn-group">
+                                                <label class="btn btn-primary" ng-model="vm.bookingForm.show_vehicle_no" btn-radio="true" ng-class="{active : vm.bookingForm.show_vehicle_no == true}" ng-click="vm.onShowVehicleNoChange(true)">YES</label>
+                                                <label class="btn btn-primary" ng-model="vm.bookingForm.show_vehicle_no" btn-radio="false" ng-class="{active : vm.bookingForm.show_vehicle_no == false}" ng-click="vm.onShowVehicleNoChange(false)">NO</label>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

@@ -22,8 +22,8 @@
         </thead>
         <tbody ng-repeat="booking in vm.bookings">
           
-          <tr ng-show="booking.payments.payment_mode != 'cash'">
-            <td> <a class="btn btn-primary" ui-sref="vm.bookings.view({bookingId: booking._id})">VIEW</a> </td>
+          <tr ng-show="booking.payments.payment_mode == 'cheque'">
+             <td> <a class="btn btn-primary" ui-sref="vm.bookings.view({bookingId: booking._id})">VIEW</a> </td> 
             <td> <a class="btn btn-primary" ng-click="vm.onPaymentDone(booking._id, 'pay')" ng-disabled="booking.payments_cleared != ''">CLEARED</a> </td>
             <td>{{booking.lr_date | date:'dd/MMM/yyyy'}}</td>
             <td>{{booking.lr_number}}</td>
@@ -39,7 +39,7 @@
           </tr>
 
           <tr>
-            <td> <a class="btn btn-primary" ui-sref="vm.bookings.view({bookingId: booking._id})">VIEW</a> </td>
+             <td> <a class="btn btn-primary" ui-sref="vm.bookings.view({bookingId: booking._id})">VIEW</a> </td> 
             <td> <a class="btn btn-primary" ng-click="vm.onPaymentDone(booking._id, 'bal')" ng-disabled="booking.balance_cleared != ''">CLEARED</a> </td>
             <td>{{booking.lr_date | date:'dd/MMM/yyyy'}}</td>
             <td>{{booking.lr_number}}</td>
