@@ -3,11 +3,11 @@
 
   angular
     .module('bookings')
-    .controller('ChequesListController', ChequesListController);
+    .controller('PaymentsListController', PaymentsListController);
 
-  ChequesListController.$inject = ['BookingsService', 'Notification', '$state', '$window'];
+  PaymentsListController.$inject = ['BookingsService', 'Notification', '$state', '$window'];
 
-  function ChequesListController(BookingsService, Notification, $state, $window) {
+  function PaymentsListController(BookingsService, Notification, $state, $window) {
     var vm = this;
 
     vm.bookings = BookingsService.query();

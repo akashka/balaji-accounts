@@ -135,6 +135,12 @@ var convertToWord = function(num) {
     return str;
 }
 
+var getBankDetails = function(bank) {
+  if(bank == 'axis') return ("Jai Balaji Road Ways \n Axis Bank A/c No - 913020025526025 \n IFS - UTIB0000560 \n Branch - Peenya");
+  if(bank == 'icici') return ("Jai Balaji Road Ways \n ICICI Bank A/c No - 279405500069 \n IFS - ICIC0002794 \n Branch - Nelamangala");
+  return "";
+}
+
 exports.downloadByID = function (req, res) {
   var id = req.params.bookingId;
   if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -153,8 +159,11 @@ exports.downloadByID = function (req, res) {
     }
     
     var stringTemplate = fs.readFileSync(path.join(__dirname, '../controllers') + '/bill.html', "utf8");
-    stringTemplate = stringTemplate.replace('{{biller_details}}', booking.consignor.name + "<br>" + booking.consignor.address + "<br>" + booking.consignor.phonenum);
-    stringTemplate = stringTemplate.replace('{{frightbillno}}', (booking.pod.billno != undefined) ? booking.pod.billno : "");
+    stringTemplate = stringTemplate.replace('{{biller_details}}', booking.consignor.name + "\n" + booking.consignor.address + "\n Phone No:" 
++ (booking.consignor.phonenum != undefined ? booking.consignor.phonenum : "") + "\n GSTIN No:" + (booking.consignor.gstin_no != undefined ? booking.consignor.gstin_no : "")
++ "\n TIN No:" + (booking.consignor.tin_no != undefined ? booking.consignor.tin_no : "") + "\n State:" + (booking.consignor.state != undefined ?booking.consignor.state : "")
++ "\n State Code:" + (booking.consignor.state_code != undefined ? booking.consignor.state_code : ""));
+    stringTemplate = stringTemplate.replace('{{frightbillno}}', (booking.pod.bill_no != undefined) ? booking.pod.bill_no : "");
     stringTemplate = stringTemplate.replace('{{invoidedate}}', moment(booking.invoice_date).format("DD-MMM-YYYY"));
     stringTemplate = stringTemplate.replace('{{challan_no}}', booking.challan_number);
     stringTemplate = stringTemplate.replace('{{challan_date}}', moment(booking.lr_date).format("DD-MMM-YYYY"));
@@ -170,6 +179,8 @@ exports.downloadByID = function (req, res) {
     stringTemplate = stringTemplate.replace('{{sgst}}', 0);
     stringTemplate = stringTemplate.replace('{{igst}}', booking.service_tax);
     stringTemplate = stringTemplate.replace('{{grand_total}}', (parseFloat(booking.service_tax) + parseFloat(booking.basic_amount)));
+    stringTemplate = stringTemplate.replace('{{bank_details}}', getBankDetails(booking.bank));
+    stringTemplate = stringTemplate.replace('{{show_vehicle_no}}', (booking.show_vehicle_no) ? ("Vehicle No: " + booking.vehicle_number) : "");
 
     conversion({ html: stringTemplate }, function(err, pdf) {
         var output = fs.createWriteStream('./output.pdf');

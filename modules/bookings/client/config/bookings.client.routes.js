@@ -26,6 +26,12 @@
         controller: 'ChequesListController',
         controllerAs: 'vm'
       })
+      .state('bookings.payments', {
+        url: '/payments',
+        templateUrl: '/modules/bookings/client/views/list-payments.client.view.html',
+        controller: 'PaymentsListController',
+        controllerAs: 'vm'
+      })
       .state('bookings.create', {
         url: '/create',
         templateUrl: '/modules/bookings/client/views/create-booking.client.view.html',

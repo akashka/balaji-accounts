@@ -18,7 +18,8 @@
       challan_number: "",
       invoice_number: "",
       lr_from: "",
-      lr_to: ""
+      lr_to: "",
+      bill_nnumber: ""
     }
 
     vm.searches = function() {
@@ -30,6 +31,8 @@
         else if(vm.search.challan_number != "" && vm.search.challan_number == bookings[i].challan_number)
           vm.bookings.push(bookings[i]);
         else if(vm.search.invoice_number != "" && vm.search.invoice_number == bookings[i].invoice_number)
+          vm.bookings.push(bookings[i]);
+        else if(vm.search.bill_number != "" && vm.search.bill_number == bookings[i].pod.bill_no)
           vm.bookings.push(bookings[i]);
         else if(vm.search.lr_from != "" && moment(vm.search.lr_from) <= moment(bookings[i].lr_date))
           vm.bookings.push(bookings[i]);
@@ -45,7 +48,8 @@
         challan_number: "",
         invoice_number: "",
         lr_from: "",
-        lr_to: ""
+        lr_to: "",
+        bill_number: ""
       };
       vm.lr_from = {isOpened: false};
       vm.lr_to = {isOpened: false}; 

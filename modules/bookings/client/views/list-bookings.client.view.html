@@ -61,7 +61,17 @@
                 </div>
             </div>
         </div>
-        <div class="page-controls" style="text-align: center;">
+        <div class="col-sm-4 col-md-4">
+            <div class="form-group">
+                <label for="bill_number" class="col-sm-5 control-label">Bill Number:</label>
+                <div class="col-sm-7">
+                    <input id="bill_number" type="text" class="form-control" ng-model="vm.search.bill_number" 
+                        placeholder="Enter Bill Number"/>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="page-controls col-sm-12" style="text-align: center;">
             <div class="row" role="toolbar">
                 <button type="button" class="btn btn-default" ng-click="vm.searches()">Search</button>
                 <button type="button" class="btn btn-default" ng-click="vm.reset()">Reset</button>
@@ -80,6 +90,7 @@
             <th>LR Date</th>
             <th>LR No</th>
             <th>Challan No</th>
+            <th>Bill No</th>
             <th>Branch/Area</th>
             <th>Package</th>
             <th>Invoice No</th>
@@ -102,6 +113,7 @@
             <td>{{booking.lr_date | date:'dd/MMM/yyyy'}}</td>
             <td>{{booking.lr_number}}</td>
             <td>{{booking.challan_number}}</td>
+            <td>{{booking.pod.bill_no}}</td>
             <td>{{booking.branch_area}}</td>
             <td>{{booking.package}}</td>
             <td>{{booking.invoice_number}}</td>

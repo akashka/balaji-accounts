@@ -65,12 +65,20 @@
         consignor: {
           name: "",
           address: "",
-          phonenum: ""
+          phonenum: "",
+          gstin_no: "",
+          pan_no: "",
+          state: "",
+          state_code: ""
         },
         consignee: {
           name: "",
           address: "",
-          phonenum: ""
+          phonenum: "",
+          gstin_no: "",
+          pan_no: "",
+          state: "",
+          state_code: ""
         },
         invoice_number: "",
         invoice_date: "",
@@ -116,7 +124,7 @@
           name: "",
           numb: ""
         },
-        bank: "axis",
+        bank: "",
         show_vehicle_no: false
       };
 

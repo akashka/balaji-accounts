@@ -26,5 +26,11 @@
       roles: ['admin','user']
     });
 
+    menuService.addMenuItem('topbar', {
+      title: 'Payments',
+      state: 'bookings.payments',
+      roles: ['admin','user']
+    });
+
   }
 }());
