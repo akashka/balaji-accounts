@@ -3,21 +3,21 @@
     <h1>Cheques</h1>
   </div>
   <div class="list-group table-responsive">
-    <table class="table table-hover">
+    <table class="table table-hover" id="myTable1">
         <thead>
           <tr>
             <th> </th>
             <th> </th>
-            <th>LR Date</th>
-            <th>LR No</th>
-            <th>Challan No</th>
-            <th>Branch/Area</th>
-            <th>Invoice No</th>
-            <th>Invoice Date</th>
-            <th>Total Amount</th>
-            <th>Cheque Date</th>
-            <th>Cheque Number</th>
-            <th>Cheque Amount</th>
+            <th ng-click="vm.sortTable(0)">LR Date</th>
+            <th ng-click="vm.sortTable(1)">LR No</th>
+            <th ng-click="vm.sortTable(2)">Challan No</th>
+            <th ng-click="vm.sortTable(3)">Branch/Area</th>
+            <th ng-click="vm.sortTable(4)">Invoice No</th>
+            <th ng-click="vm.sortTable(5)">Invoice Date</th>
+            <th ng-click="vm.sortTable(6)">Total Amount</th>
+            <th ng-click="vm.sortTable(7)">Cheque Date</th>
+            <th ng-click="vm.sortTable(8)">Cheque Number</th>
+            <th ng-click="vm.sortTable(9)">Cheque Amount</th>
           </tr>
         </thead>
         <tbody ng-repeat="booking in vm.bookings">

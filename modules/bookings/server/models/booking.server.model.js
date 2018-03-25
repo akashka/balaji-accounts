@@ -79,6 +79,9 @@ var BookingSchema = new Schema({
     type: String,
     default: ''
   },
+  extra_breakup:{
+    type: Array
+  },
   booking_method: {
     type: String,
     default: ''

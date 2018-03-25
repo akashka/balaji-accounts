@@ -375,17 +375,25 @@
                                 </div>
                                 <div class="col-sm-6 col-md-6">
                                     <div class="form-group">
-                                        <label for="other_charge" class="col-sm-4 control-label">Other Charge:</label>
-                                        <div class="col-sm-8">
-                                            <p class="input-group date">
-                                                <span class="input-group-btn">
-                                                    <button type="button" class="btn btn-default btn-date">
-                                                        &#8377;
-                                                    </button>
-                                                </span>
-                                                <input id="other_charge" type="text" class="form-control" ng-model="vm.bookingForm.other_charge" 
-                                                    placeholder="Enter Other Charge" />
-                                            </p>                        
+                                        <label for="other_charge" class="col-sm-8 control-label">Other Charge:</label>
+                                        <p> <span class="input-group-btn"> <button type="button" class="btn btn-default btn-date" style="background-color:green;" ng-click="vm.addOtherBreakup()">
+                                                    +
+                                        </button> </span> </p>
+                                        <div class="col-sm-12" ng-repeat="oth in vm.bookingForm.extra_breakup">
+                                            <div class="col-md-6">
+                                                <input id="other_charge" type="text" class="form-control" ng-model="oth.extra_name" ng-change="vm.onBreakupChange()"/>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p class="input-group date">
+                                                    <span class="input-group-btn">
+                                                        <button type="button" class="btn btn-default btn-date">
+                                                            &#8377;
+                                                        </button>
+                                                    </span>
+                                                    <input id="other_charge" type="text" class="form-control" ng-model="oth.extra_value" ng-change="vm.onBreakupChange()" 
+                                                        placeholder="Enter Other Charge" />
+                                                </p>   
+                                            </div>                     
                                         </div>
                                     </div>
                                 </div>
@@ -400,6 +408,14 @@
                                         </div>
                                     </div>
                                 </div> 
+                                <div class="col-sm-6 col-md-6">
+                                    <div class="form-group">
+                                        <label for="other_charge" class="col-sm-4 control-label">Other Charge:</label>
+                                        <div class="col-sm-8">
+                                            <h4> &#8377; {{vm.bookingForm.other_charge}} </h4>
+                                        </div>
+                                    </div>
+                                </div>
                             </div> 
                         </div>
                     </div>

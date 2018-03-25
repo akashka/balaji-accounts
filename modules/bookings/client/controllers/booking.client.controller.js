@@ -96,6 +96,7 @@
         commission: "",
         interest: "",
         extra: "",
+        extra_breakup: [],
         crane_charge: "",
         halting: "",
         hire: "",
@@ -225,6 +226,28 @@
     }
     vm.onShowVehicleNoChange(false);
 
+    vm.addOtherBreakup = function() {
+        if(vm.bookingForm.extra_breakup == undefined)
+          vm.bookingForm.extra_breakup = [];    
+        vm.bookingForm.extra_breakup.push({
+            extra_name: "",
+            extra_value: 0
+        });
+    }
+
+    vm.removeOtherBreakup = function(index) {
+        vm.bookingForm.extra_breakup.splice(index, 1);
+    }
+
+    vm.onBreakupChange = function() {
+        vm.bookingForm.other_charge = 0;
+        for(var i=0; i<vm.bookingForm.extra_breakup.length; i++) {
+          if(vm.bookingForm.extra_breakup[i] == undefined || vm.bookingForm.extra_breakup[i] == null)
+              vm.bookingForm.extra_breakup[i].extra_value = 0;
+          vm.bookingForm.other_charge += vm.convertToFloat(vm.bookingForm.extra_breakup[i].extra_value);
+        }
+    }
+
     if($state.params.bookingId) {
       vm.bookingForm = {
         _id: bookingResolve[0]._id,
@@ -266,8 +289,6 @@
         clearances: bookingResolve[0].clearances
       };
     }
-
-    console.log(vm.bookingForm);
 
   }
 }());
