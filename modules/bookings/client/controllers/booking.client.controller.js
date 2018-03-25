@@ -125,7 +125,8 @@
           numb: ""
         },
         bank: "",
-        show_vehicle_no: false
+        show_vehicle_no: false,
+        clearances: []
       };
 
       vm.bookingForm.payments.amount = vm.bookingForm.advance;
@@ -144,11 +145,7 @@
     
     };
 
-    if($state.params.bookingId) {
-      vm.bookingForm = bookingResolve[0];
-    } else {
-      vm.reset();
-    }
+    vm.reset();
 
     vm.gotoNewBooking = function() {
          vm.reset();         
@@ -193,12 +190,14 @@
       startingDay: 1
     };
 
-    vm.dateset.lr_date = { isOpened: false };
-    vm.dateset.invoice_date = { isOpened: false };
-    vm.dateset.cheque_date = { isOpened: false };
-    vm.dateset.balance_cheque_date = { isOpened: false };
-    vm.dateset.pod_receipt = { isOpened: false };
-    vm.dateset.pod_received = { isOpened: false };
+    vm.dateset = {
+      lr_date: { isOpened: false },
+      invoice_date: { isOpened: false },
+      cheque_date: { isOpened: false },
+      balance_cheque_date: { isOpened: false },
+      pod_receipt: { isOpened: false },
+      pod_received: { isOpened: false }
+    };
 
     vm.duplicateLrNumber = false;
     vm.onLrNumberChange = function() {
@@ -225,6 +224,50 @@
         vm.bookingForm.show_vehicle_no = bl;
     }
     vm.onShowVehicleNoChange(false);
+
+    if($state.params.bookingId) {
+      vm.bookingForm = {
+        _id: bookingResolve[0]._id,
+        lr_date: bookingResolve[0].lr_date,
+        lr_number: bookingResolve[0].lr_number,
+        challan_number: bookingResolve[0].challan_number,
+        branch_area: bookingResolve[0].branch_area,
+        from: bookingResolve[0].from,
+        to: bookingResolve[0].to,
+        package: bookingResolve[0].package,
+        weight: bookingResolve[0].weight,
+        consignor: bookingResolve[0].consignor,
+        consignee: bookingResolve[0].consignee,
+        invoice_number: bookingResolve[0].invoice_number,
+        invoice_date: bookingResolve[0].invoice_date,
+        basic_amount: bookingResolve[0].basic_amount,
+        service_tax: bookingResolve[0].service_tax,
+        other_charge: bookingResolve[0].other_charge,
+        booking_method: bookingResolve[0].booking_method,
+        vehicle_number: bookingResolve[0].vehicle_number,
+        vehicle_type: bookingResolve[0].vehicle_type,
+        vehicle_owner_broker_name: bookingResolve[0].vehicle_owner_broker_name,
+        commission: bookingResolve[0].commission,
+        interest: bookingResolve[0].interest,
+        extra: bookingResolve[0].extra,
+        crane_charge: bookingResolve[0].crane_charge,
+        halting: bookingResolve[0].halting,
+        hire: bookingResolve[0].hire,
+        advance: bookingResolve[0].advance,
+        payments: bookingResolve[0].payments,
+        balance: bookingResolve[0].balance,
+        payments_cleared: bookingResolve[0].payments_cleared,
+        balance_cleared: bookingResolve[0].balance_cleared,
+        pod: bookingResolve[0].pod,
+        remarks: bookingResolve[0].remarks,
+        driver: bookingResolve[0].driver,
+        bank: bookingResolve[0].bank,
+        show_vehicle_no: bookingResolve[0].show_vehicle_no,
+        clearances: bookingResolve[0].clearances
+      };
+    }
+
+    console.log(vm.bookingForm);
 
   }
 }());

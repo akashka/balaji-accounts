@@ -1,62 +1,145 @@
 <section>
   <div class="page-header">
-    <h1>Cheques</h1>
+    <h1>Payment</h1>
   </div>
-  <div class="list-group table-responsive">
-    <table class="table table-hover">
-        <thead>
-          <tr>
-            <th> </th>
-            <th> </th>
-            <th>LR Date</th>
-            <th>LR No</th>
-            <th>Challan No</th>
-            <th>Branch/Area</th>
-            <th>Invoice No</th>
-            <th>Invoice Date</th>
-            <th>Total Amount</th>
-            <th>Cheque Date</th>
-            <th>Cheque Number</th>
-            <th>Cheque Amount</th>
-          </tr>
-        </thead>
-        <tbody ng-repeat="booking in vm.bookings">
-          
-          <tr ng-show="booking.payments.payment_mode == 'cheque'" ng-style="(booking.payments_cleared != '') && {'background-color':'#c9e9c9'} || {'background-color': '#dcdcdc'}">
-            <td> <a class="btn btn-primary" ui-sref="vm.bookings.view({bookingId: booking._id})">VIEW</a> </td> 
-            <td> <a class="btn btn-primary" ng-click="vm.onPaymentDone(booking._id, 'pay')" ng-disabled="booking.payments_cleared != ''">CLEARED</a> </td>
-            <td>{{booking.lr_date | date:'dd/MMM/yyyy'}}</td>
-            <td>{{booking.lr_number}}</td>
-            <td>{{booking.challan_number}}</td>
-            <td>{{booking.branch_area}}</td>
-            <td>{{booking.invoice_number}}</td>
-            <td>{{booking.invoice_date | date:'dd/MMM/yyyy'}}</td>
-            <td>&#8377;  {{vm.convertToFloat(booking.basic_amount) + vm.convertToFloat(booking.service_tax)
-                 + vm.convertToFloat(booking.other_charge)}}</td>
-            <td>{{booking.payments.cheque_date | date:'dd/MMM/yyyy'}}</td>
-            <td>{{booking.payments.cheque_no}}</td>
-            <td>&#8377;  {{booking.advance}}</td>
-          </tr>
 
-          <tr ng-style="(booking.payments_cleared != '') && {'background-color':'#c9e9c9'} || {'background-color': '#dcdcdc'}">
-             <td> <a class="btn btn-primary" ui-sref="vm.bookings.view({bookingId: booking._id})">VIEW</a> </td> 
-            <td> <a class="btn btn-primary" ng-click="vm.onPaymentDone(booking._id, 'bal')" ng-disabled="booking.balance_cleared != ''">CLEARED</a> </td>
-            <td>{{booking.lr_date | date:'dd/MMM/yyyy'}}</td>
-            <td>{{booking.lr_number}}</td>
-            <td>{{booking.challan_number}}</td>
-            <td>{{booking.branch_area}}</td>
-            <td>{{booking.invoice_number}}</td>
-            <td>{{booking.invoice_date | date:'dd/MMM/yyyy'}}</td>
-            <td>&#8377;  {{vm.convertToFloat(booking.basic_amount) + vm.convertToFloat(booking.service_tax)
-                 + vm.convertToFloat(booking.other_charge)}}</td>
-            <td>{{booking.balance.cheque_date | date:'dd/MMM/yyyy'}}</td>
-            <td>{{booking.balance.cheque_no}}</td>
-            <td>&#8377;  {{vm.convertToFloat(booking.basic_amount) + vm.convertToFloat(booking.service_tax)
-                 + vm.convertToFloat(booking.other_charge) - booking.advance}}</td>
-          </tr>
-          
-        </tbody>
-    </table>
+
+  <div  ng-show="!vm.showModal">
+    <div class="list-group table-responsive">
+      <table class="table table-hover">
+          <thead>
+            <tr>
+              <th> </th>
+              <th> </th>
+              <th>LR Date</th>
+              <th>LR No</th>
+              <th>Challan No</th>
+              <th>Branch/Area</th>
+              <th>Invoice No</th>
+              <th>Invoice Date</th>
+              <th>Total Amount</th>
+              <th>Amount Paid</th>
+              <th>Pending</th>
+              <th>Consigner</th>
+              <th>Consignee</th>
+            </tr>
+          </thead>
+          <tbody ng-repeat="booking in vm.bookings">
+            
+            <tr ng-style="(booking.sumOfClearances == (booking.basic_amount+booking.service_tax+booking.other_charge)) && {'background-color':'#c9e9c9'} || {'background-color': '#dcdcdc'}">
+              <td> <a class="btn btn-primary" ui-sref="bookings.view({bookingId: booking._id})">VIEW</a> </td> 
+              <td>
+                <a class="btn btn-primary" ng-click="vm.onPaymentDone(booking._id)">CLEARED</a> 
+                <p ng-show="(booking.sumOfClearances == (booking.basic_amount+booking.service_tax+booking.other_charge))"> </p>
+              </td>
+              <td>{{booking.lr_date | date:'dd/MMM/yyyy'}}</td>
+              <td>{{booking.lr_number}}</td>
+              <td>{{booking.challan_number}}</td>
+              <td>{{booking.branch_area}}</td>
+              <td>{{booking.invoice_number}}</td>
+              <td>{{booking.invoice_date | date:'dd/MMM/yyyy'}}</td>
+              <td>&#8377;  {{vm.convertToFloat(booking.basic_amount) + vm.convertToFloat(booking.service_tax)
+                  + vm.convertToFloat(booking.other_charge)}}</td>
+              <td>&#8377; {{booking.sumOfClearances}} </td>
+              <td>&#8377; {{vm.convertToFloat(booking.basic_amount)+vm.convertToFloat(booking.service_tax)+
+                  vm.convertToFloat(booking.other_charge)-vm.convertToFloat(booking.sumOfClearances)}} </td>
+              <td>{{booking.consignor.name}}</td>
+              <td>{{booking.consignee.name}}</td>
+            </tr>
+
+          </tbody>
+      </table>
+    </div>
+    <uib-pagination boundary-links="true" max-size="5" items-per-page="vm.itemsPerPage" total-items="vm.filterLength" ng-model="vm.currentPage" ng-change="vm.pageChanged()"></uib-pagination>
   </div>
-  <uib-pagination boundary-links="true" max-size="5" items-per-page="vm.itemsPerPage" total-items="vm.filterLength" ng-model="vm.currentPage" ng-change="vm.pageChanged()"></uib-pagination>
+
+
+  <div ng-show="vm.showModal">
+      <div class="col-md-12">
+          <form name="vm.paymentForm" class="form-horizontal" ng-submit="vm.save(vm.paymentForm.$valid)" novalidate>
+                <div class="col-sm-6 col-md-6">
+                    <div class="form-group">
+                        <label for="lr_date" class="col-sm-6 control-label">LR Date:</label>
+                        <div class="col-sm-6">
+                            {{vm.paymentForm.lr_date | date:'dd/MMM/yyyy'}}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-6">
+                    <div class="form-group">
+                        <label for="lr_no" class="col-sm-6 control-label">LR NO:</label>
+                        <div class="col-sm-6">
+                            {{vm.paymentForm.lr_number}}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-6">
+                    <div class="form-group">
+                        <label for="invoice_date" class="col-sm-6 control-label">Invoice Date:</label>
+                        <div class="col-sm-6">
+                            {{vm.paymentForm.invoice_date | date:'dd/MMM/yyyy'}}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-6">
+                    <div class="form-group">
+                        <label for="invoice_number" class="col-sm-6 control-label">Invoice NO:</label>
+                        <div class="col-sm-6">
+                            {{vm.paymentForm.invoice_number}}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-6">
+                    <div class="form-group">
+                        <label for="total_amount" class="col-sm-6 control-label">Total Amount:</label>
+                        <div class="col-sm-6">
+                            &#8377;  {{vm.convertToFloat(vm.paymentForm.basic_amount) + vm.convertToFloat(vm.paymentForm.service_tax) + vm.convertToFloat(vm.paymentForm.other_charge)}}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-6">
+                    <div class="form-group">
+                        <label for="balance_amount" class="col-sm-6 control-label">Amount Balance:</label>
+                        <div class="col-sm-6">
+                            &#8377; {{vm.convertToFloat(vm.paymentForm.basic_amount)+vm.convertToFloat(vm.paymentForm.service_tax)+vm.convertToFloat(vm.paymentForm.other_charge)-vm.convertToFloat(vm.paymentForm.sumOfClearances)}}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-6">
+                    <div class="form-group">
+                        <label for="amount" class="col-sm-6 control-label">Amount:</label>
+                        <div class="col-sm-6">
+                            <input id="amount" type="text" class="form-control" ng-model="vm.paymentForm.amount_paid" placeholder="Enter Amount" ng-required="true"/>
+                             <div ng-messages="vm.paymentForm.amount_paid.$error" ng-show="vm.paymentForm.amount_paid.$dirty && vm.paymentForm.amount_paid.$invalid" class="error-message">
+                                <div ng-message="required">Amount is required</div>
+                            </div> 
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-6">
+                    <div class="form-group">
+                        <label for="date_paid" class="col-sm-6 control-label">Date Received:</label>
+                        <div class="col-sm-6">
+                            <p class="input-group">
+                                <input type="text" class="form-control" uib-datepicker-popup="dd-MMM-yyyy" ng-model="vm.paymentForm.date_paid" 
+                                    is-open="vm.dateset.paid.isOpened" datepicker-options="vm.dateOptions" ng-required="true"/>
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-default" ng-click="vm.selectDate($event, 1)"><i class="glyphicon glyphicon-calendar"></i></button>
+                                </span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <br><br>
+                <div class="page-controls">
+                  <div class="row text-right" role="toolbar">
+                      <button type="button" class="btn btn-default" ng-disabled="vm.paymentForm.$invalid" ng-click="vm.save(vm.paymentForm.$valid)">Save</button>
+                      <button type="button" class="btn btn-default" ng-click="vm.toggleDialog()">Cancel</button>
+                  </div>
+                  <br/>
+                </div>
+          </form>
+      </div>
+
+  </div>
 </section>

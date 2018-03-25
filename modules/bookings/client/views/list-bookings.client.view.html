@@ -85,7 +85,7 @@
         <thead>
           <tr>
             <th> </th>
-            <!-- <th> </th> -->
+             <th> </th> 
             <th> </th>
             <th>LR Date</th>
             <th>LR No</th>
@@ -108,7 +108,7 @@
         <tbody>
           <tr ng-repeat="booking in vm.bookings">
             <td> <a class="btn btn-primary" ui-sref="bookings.view({bookingId: booking._id})">VIEW</a> </td>
-            <!-- <td> <a class="btn btn-primary" ui-sref="bookings.edit({bookingId: booking._id})">EDIT</a> </td> -->
+             <td> <a class="btn btn-primary" ui-sref="bookings.edit({bookingId: booking._id})">EDIT</a> </td> 
             <td> <div class="btn btn-primary" ng-click="vm.download(booking._id)">DOWNLOAD</div> </td>
             <td>{{booking.lr_date | date:'dd/MMM/yyyy'}}</td>
             <td>{{booking.lr_number}}</td>

@@ -141,6 +141,9 @@ var BookingSchema = new Schema({
   show_vehicle_no: {
     type: Boolean,
     default: false
+  },
+  clearances: {
+    type: Array
   }
 });
 
