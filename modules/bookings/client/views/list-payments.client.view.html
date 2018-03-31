@@ -139,6 +139,13 @@
                   <br/>
                 </div>
           </form>
+
+          <h1>Payments Received</h1> <br>
+          <div class="row col-md-12" ng-repeat="pays in vm.paymentForm.clearances">
+                <div class="col-md-3"> </div>
+                <div class="col-md-3" style="border-bottom: 1px solid grey;"> {{pays.date_paid | date:'dd/MMM/yyyy'}} </div>
+                <div class="col-md-3" style="border-bottom: 1px solid grey;"> {{pays.amount_paid}} </div>
+          </div>
       </div>
 
   </div>

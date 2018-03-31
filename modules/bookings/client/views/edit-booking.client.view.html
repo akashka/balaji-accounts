@@ -1,14 +1,9 @@
 <section>
   <div class="page-header">
-    <h1>{{vm.bookingForm._id ? 'Edit Booking' : 'New Booking'}}</h1>
-  </div>
-  <div class="pull-right">
-    <a ng-show="vm.booking._id" class="btn btn-primary" ng-click="vm.remove()">
-      <i class="glyphicon glyphicon-trash"></i>
-    </a>
+    <h1>Edit Booking</h1>
   </div>
   <div class="col-md-12">
-    <form name="vm.bookingForm" class="form-horizontal" ng-submit="vm.save(vm.bookingForm.$valid)" novalidate>
+    <form name="vm.bookingForm" class="form-horizontal" ng-submit="vm.save()" novalidate>
 
         <div ng-hide="vm.isError">
             <!-- row 1,2 Basic Details -->
@@ -17,33 +12,23 @@
                 <div class="col-sm-6 col-md-6">
                     <div class="form-group">
                         <label for="lr_date" class="col-sm-4 control-label">LR Date:</label>
-                        <div class="col-sm-8" ng-hide="vm.bookingCompleted">
+                        <div class="col-sm-8">
                             <p class="input-group">
-                                <input type="text" class="form-control" uib-datepicker-popup="dd-MMM-yyyy" ng-model="vm.bookingForm.lr_date" 
+                                <input type="text" class="form-control" uib-datepicker-popup="dd-MMM-yyyy" ng-model="vm.booking.lr_date" 
                                     is-open="vm.dateset.lr_date.isOpened" datepicker-options="vm.dateOptions" ng-required="true"/>
                                 <span class="input-group-btn">
                                     <button type="button" class="btn btn-default" ng-click="vm.selectDate($event, 1)"><i class="glyphicon glyphicon-calendar"></i></button>
                                 </span>
                             </p>
                         </div>
-                        <div class="col-sm-8" ng-show="vm.bookingCompleted">
-                            {{vm.bookingForm.lr_date}}
-                        </div>
                     </div>
                 </div>
                 <div class="col-sm-6 col-md-6">
                     <div class="form-group">
                         <label for="lr_number" class="col-sm-4 control-label">LR Number:</label>
-                        <div class="col-sm-8" ng-hide="vm.bookingCompleted">
-                            <input id="lr_number" type="text" class="form-control" ng-model="vm.bookingForm.lr_number" 
-                                placeholder="Enter LR Number" ng-required="true" ng-change="vm.onLrNumberChange()"/>
-                             <div ng-messages="vm.bookingForm.lr_number.$error" ng-show="vm.bookingForm.lr_number.$dirty && vm.bookingForm.lr_number.$invalid" class="error-message">
-                                <div ng-message="required">LR Number is required</div>
-                            </div> 
-                            <div ng-show="vm.duplicateLrNumber" style="color: orange;">LR Number already exists</div>
-                        </div>
-                        <div class="col-sm-8" ng-show="vm.bookingCompleted">
-                            {{vm.bookingForm.lr_number}}
+                        <div class="col-sm-8">
+                            <input id="lr_number" type="text" class="form-control" ng-model="vm.booking.lr_number" 
+                                placeholder="Enter LR Number" ng-change="vm.onLrNumberChange()"/>
                         </div>
                     </div>
                 </div>
@@ -53,32 +38,19 @@
                 <div class="col-sm-6 col-md-6">
                     <div class="form-group">
                         <label for="challan_number" class="col-sm-4 control-label">Challan Number:</label>
-                        <div class="col-sm-8" ng-hide="vm.bookingCompleted">
-                            <input id="challan_number" type="text" class="form-control" ng-model="vm.bookingForm.challan_number" 
+                        <div class="col-sm-8">
+                            <input id="challan_number" type="text" class="form-control" ng-model="vm.booking.challan_number" 
                                 placeholder="Enter Challan Number" ng-change="vm.onChallanNumberChange()" />
-                             <div ng-messages="vm.bookingForm.challan_number.$error" ng-show="vm.bookingForm.challan_number.$dirty && vm.bookingForm.challan_number.$invalid" class="error-message">
-                                <div ng-message="required">Challan Number is required</div>
-                            </div> 
-                            <div ng-show="vm.duplicateChallanNumber" style="color: orange;">Challan Number already exists</div>
-                        </div>
-                        <div class="col-sm-8" ng-show="vm.bookingCompleted">
-                            {{vm.bookingForm.challan_number}}
                         </div>
                     </div>
                 </div>
                 <div class="col-sm-6 col-md-6">
                     <div class="form-group">
                         <label for="branch_area" class="col-sm-4 control-label">Branch / Area:</label>
-                        <div class="col-sm-8" ng-hide="vm.bookingCompleted">
-                            <input id="branch_area" type="text" class="form-control" ng-model="vm.bookingForm.branch_area" 
+                        <div class="col-sm-8">
+                            <input id="branch_area" type="text" class="form-control" ng-model="vm.booking.branch_area" 
                                 placeholder="Enter Branch / Area" ng-required="true" 
                                 uib-typeahead="state for state in states | filter:$viewValue | limitTo:8"/>
-                             <div ng-messages="vm.bookingForm.branch_area.$error" ng-show="vm.bookingForm.branch_area.$dirty && vm.bookingForm.branch_area.$invalid" class="error-message">
-                                <div ng-message="required">Branch / Area is required</div>
-                            </div> 
-                        </div>
-                        <div class="col-sm-8" ng-show="vm.bookingCompleted">
-                            {{vm.bookingForm.branch_area}}
                         </div>
                     </div>
                 </div>
@@ -89,7 +61,7 @@
                     <div class="form-group">
                         <label for="from" class="col-sm-4 control-label">From:</label>
                         <div class="col-sm-8">
-                            <input id="from" type="text" class="form-control" ng-model="vm.bookingForm.from" 
+                            <input id="from" type="text" class="form-control" ng-model="vm.booking.from" 
                                 placeholder="Enter From location" />
                         </div>
                     </div>
@@ -98,7 +70,7 @@
                     <div class="form-group">
                         <label for="to" class="col-sm-4 control-label">To:</label>
                         <div class="col-sm-8">
-                            <input id="to" type="text" class="form-control" ng-model="vm.bookingForm.to" 
+                            <input id="to" type="text" class="form-control" ng-model="vm.booking.to" 
                                 placeholder="Enter To location" />
                         </div>
                     </div>
@@ -110,7 +82,7 @@
                     <div class="form-group">
                         <label for="package" class="col-sm-4 control-label">Package:</label>
                         <div class="col-sm-8">
-                            <input id="package" type="text" class="form-control" ng-model="vm.bookingForm.package" 
+                            <input id="package" type="text" class="form-control" ng-model="vm.booking.package" 
                                 placeholder="Enter Package" />
                         </div>
                     </div>
@@ -119,7 +91,7 @@
                     <div class="form-group">
                         <label for="weight" class="col-sm-4 control-label">Weight:</label>
                         <div class="col-sm-8">
-                            <input id="weight" type="text" class="form-control" ng-model="vm.bookingForm.weight" 
+                            <input id="weight" type="text" class="form-control" ng-model="vm.booking.weight" 
                                 placeholder="Enter Weight" />
                         </div>
                     </div>
@@ -141,11 +113,8 @@
                                     <div class="form-group">
                                         <label for="consignor_name" class="col-sm-4 control-label">Name:</label>
                                         <div class="col-sm-8">
-                                            <input id="consignor_name" type="text" class="form-control" ng-model="vm.bookingForm.consignor.name" 
-                                                placeholder="Enter Consignor Name" ng-required="true" />
-                                            <div ng-messages="vm.bookingForm.consignor_name.$error" ng-show="vm.bookingForm.consignor_name.$dirty && vm.bookingForm.consignor_name.$invalid" class="error-message">
-                                                <div ng-message="required">Consignor Name is required</div>
-                                            </div> 
+                                            <input id="consignor_name" type="text" class="form-control" ng-model="vm.booking.consignor.name" 
+                                                placeholder="Enter Consignor Name" />
                                         </div>
                                     </div>
                                 </div>
@@ -153,7 +122,7 @@
                                     <div class="form-group">
                                         <label for="consignor_address" class="col-sm-4 control-label">Address:</label>
                                         <div class="col-sm-8">
-                                            <textarea id="consignor_address" class="form-control" ng-model="vm.bookingForm.consignor.address" 
+                                            <textarea id="consignor_address" class="form-control" ng-model="vm.booking.consignor.address" 
                                                 placeholder="Enter Consignor Address"></textarea>
                                         </div>
                                     </div>
@@ -162,7 +131,7 @@
                                     <div class="form-group">
                                         <label for="consignor_phonenum" class="col-sm-4 control-label">Phone:</label>
                                         <div class="col-sm-8">
-                                            <input id="consignor_phonenum" type="text" class="form-control" ng-model="vm.bookingForm.consignor.phonenum" 
+                                            <input id="consignor_phonenum" type="text" class="form-control" ng-model="vm.booking.consignor.phonenum" 
                                                 placeholder="Enter Consignor Phone" />
                                         </div>
                                     </div>
@@ -171,7 +140,7 @@
                                     <div class="form-group">
                                         <label for="consignor_gstin_no" class="col-sm-4 control-label">GSTIN No:</label>
                                         <div class="col-sm-8">
-                                            <input id="consignor_gstin_no" type="text" class="form-control" ng-model="vm.bookingForm.consignor.gstin_no" 
+                                            <input id="consignor_gstin_no" type="text" class="form-control" ng-model="vm.booking.consignor.gstin_no" 
                                                 placeholder="Enter Consignor GSTIN No." />
                                         </div>
                                     </div>
@@ -180,7 +149,7 @@
                                     <div class="form-group">
                                         <label for="consignor_pan_no" class="col-sm-4 control-label">PAN No:</label>
                                         <div class="col-sm-8">
-                                            <input id="consignor_pan_no" type="text" class="form-control" ng-model="vm.bookingForm.consignor.pan_no" 
+                                            <input id="consignor_pan_no" type="text" class="form-control" ng-model="vm.booking.consignor.pan_no" 
                                                 placeholder="Enter Consignor PAN No." />
                                         </div>
                                     </div>
@@ -189,7 +158,7 @@
                                     <div class="form-group">
                                         <label for="consignor_state" class="col-sm-4 control-label">State:</label>
                                         <div class="col-sm-8">
-                                            <input id="consignor_state" type="text" class="form-control" ng-model="vm.bookingForm.consignor.state" 
+                                            <input id="consignor_state" type="text" class="form-control" ng-model="vm.booking.consignor.state" 
                                                 placeholder="Enter Consignor State" />
                                         </div>
                                     </div>
@@ -198,7 +167,7 @@
                                     <div class="form-group">
                                         <label for="consignor_state_code" class="col-sm-4 control-label">State Code:</label>
                                         <div class="col-sm-8">
-                                            <input id="consignor_state_code" type="text" class="form-control" ng-model="vm.bookingForm.consignor.state_code" 
+                                            <input id="consignor_state_code" type="text" class="form-control" ng-model="vm.booking.consignor.state_code" 
                                                 placeholder="Enter Consignor State Code" />
                                         </div>
                                     </div>
@@ -220,11 +189,8 @@
                                     <div class="form-group">
                                         <label for="consignee_name" class="col-sm-4 control-label">Name:</label>
                                         <div class="col-sm-8">
-                                            <input id="consignee_name" type="text" class="form-control" ng-model="vm.bookingForm.consignee.name" 
+                                            <input id="consignee_name" type="text" class="form-control" ng-model="vm.booking.consignee.name" 
                                                 placeholder="Enter Consignee Name" ng-required="true" />
-                                            <div ng-messages="vm.bookingForm.consignee_name.$error" ng-show="vm.bookingForm.consignee_name.$dirty && vm.bookingForm.consignee_name.$invalid" class="error-message">
-                                                <div ng-message="required">Consignee Name is required</div>
-                                            </div> 
                                         </div>
                                     </div>
                                 </div>
@@ -232,7 +198,7 @@
                                     <div class="form-group">
                                         <label for="consignee_address" class="col-sm-4 control-label">Address:</label>
                                         <div class="col-sm-8">
-                                            <textarea id="consignee_address" class="form-control" ng-model="vm.bookingForm.consignee.address" 
+                                            <textarea id="consignee_address" class="form-control" ng-model="vm.booking.consignee.address" 
                                                 placeholder="Enter Consignee Address"></textarea>
                                         </div>
                                     </div>
@@ -241,7 +207,7 @@
                                     <div class="form-group">
                                         <label for="consignee_phonenum" class="col-sm-4 control-label">Phone:</label>
                                         <div class="col-sm-8">
-                                            <input id="consignee_phonenum" type="text" class="form-control" ng-model="vm.bookingForm.consignee.phonenum" 
+                                            <input id="consignee_phonenum" type="text" class="form-control" ng-model="vm.booking.consignee.phonenum" 
                                                 placeholder="Enter Consignee Phone" />
                                         </div>
                                     </div>
@@ -251,7 +217,7 @@
                                     <div class="form-group">
                                         <label for="consignee_gstin_no" class="col-sm-4 control-label">GSTIN No:</label>
                                         <div class="col-sm-8">
-                                            <input id="consignee_gstin_no" type="text" class="form-control" ng-model="vm.bookingForm.consignee.gstin_no" 
+                                            <input id="consignee_gstin_no" type="text" class="form-control" ng-model="vm.booking.consignee.gstin_no" 
                                                 placeholder="Enter Consignee GSTIN No." />
                                         </div>
                                     </div>
@@ -260,7 +226,7 @@
                                     <div class="form-group">
                                         <label for="consignee_pan_no" class="col-sm-4 control-label">PAN No:</label>
                                         <div class="col-sm-8">
-                                            <input id="consignee_pan_no" type="text" class="form-control" ng-model="vm.bookingForm.consignee.pan_no" 
+                                            <input id="consignee_pan_no" type="text" class="form-control" ng-model="vm.booking.consignee.pan_no" 
                                                 placeholder="Enter Consignee PAN No." />
                                         </div>
                                     </div>
@@ -269,7 +235,7 @@
                                     <div class="form-group">
                                         <label for="consignee_state" class="col-sm-4 control-label">State:</label>
                                         <div class="col-sm-8">
-                                            <input id="consignee_state" type="text" class="form-control" ng-model="vm.bookingForm.consignee.state" 
+                                            <input id="consignee_state" type="text" class="form-control" ng-model="vm.booking.consignee.state" 
                                                 placeholder="Enter Consignee State" />
                                         </div>
                                     </div>
@@ -278,7 +244,7 @@
                                     <div class="form-group">
                                         <label for="consignor_state_code" class="col-sm-4 control-label">State Code:</label>
                                         <div class="col-sm-8">
-                                            <input id="consignor_state_code" type="text" class="form-control" ng-model="vm.bookingForm.consignor.state_code" 
+                                            <input id="consignor_state_code" type="text" class="form-control" ng-model="vm.booking.consignor.state_code" 
                                                 placeholder="Enter Consignor State Code" />
                                         </div>
                                     </div>
@@ -305,7 +271,7 @@
                                     <div class="form-group">
                                         <label for="invoice_number" class="col-sm-4 control-label">Invoice Number:</label>
                                         <div class="col-sm-8">
-                                            <input id="invoice_number" type="text" class="form-control" ng-model="vm.bookingForm.invoice_number" 
+                                            <input id="invoice_number" type="text" class="form-control" ng-model="vm.booking.invoice_number" 
                                                 placeholder="Enter Invoice Number" />
                                         </div>
                                     </div>
@@ -315,7 +281,7 @@
                                         <label for="invoice_date" class="col-sm-4 control-label">Invoice Date:</label>
                                         <div class="col-sm-8">
                                             <p class="input-group">
-                                                <input type="text" class="form-control" uib-datepicker-popup="dd-MMM-yyyy" ng-model="vm.bookingForm.invoice_date" 
+                                                <input type="text" class="form-control" uib-datepicker-popup="dd-MMM-yyyy" ng-model="vm.booking.invoice_date" 
                                                     is-open="vm.dateset.invoice_date.isOpened" datepicker-options="vm.dateOptions"/>
                                                 <span class="input-group-btn">
                                                     <button type="button" class="btn btn-default" ng-click="vm.selectDate($event, 2)"><i class="glyphicon glyphicon-calendar"></i></button>
@@ -330,7 +296,7 @@
                                     <div class="form-group">
                                         <label for="booking_method" class="col-sm-4 control-label">Booking Method:</label>
                                         <div class="col-sm-8">
-                                            <select class="form-control" id="booking_method" ng-model="vm.bookingForm.booking_method">
+                                            <select class="form-control" id="booking_method" ng-model="vm.booking.booking_method">
                                                 <option disabled selected value="">-- choose a Booking Method --</option>
                                                 <option value="topay">To Pay</option>
                                                 <option value="paid">Paid</option>
@@ -349,7 +315,7 @@
                                                         &#8377;
                                                     </button>
                                                 </span>
-                                                <input id="basic_amount" type="text" class="form-control" ng-model="vm.bookingForm.basic_amount" 
+                                                <input id="basic_amount" type="text" class="form-control" ng-model="vm.booking.basic_amount" 
                                                     placeholder="Enter Basic Amount" />
                                             </p>                        
                                         </div>
@@ -367,7 +333,7 @@
                                                         &#8377;
                                                     </button>
                                                 </span>
-                                                <input id="service_tax" type="text" class="form-control" ng-model="vm.bookingForm.service_tax" 
+                                                <input id="service_tax" type="text" class="form-control" ng-model="vm.booking.service_tax" 
                                                     placeholder="Enter Service Tax" />
                                             </p>                        
                                         </div>
@@ -379,7 +345,7 @@
                                         <p> <span class="input-group-btn"> <button type="button" class="btn btn-default btn-date" style="background-color:green;" ng-click="vm.addOtherBreakup()">
                                                     +
                                         </button> </span> </p>
-                                        <div class="col-sm-12" ng-repeat="oth in vm.bookingForm.extra_breakup">
+                                        <div class="col-sm-12" ng-repeat="oth in vm.booking.extra_breakup">
                                             <div class="col-md-6">
                                                 <input id="other_charge" type="text" class="form-control" ng-model="oth.extra_name" ng-change="vm.onBreakupChange()"/>
                                             </div>
@@ -403,8 +369,8 @@
                                     <div class="form-group">
                                         <label class="col-sm-4 control-label">Total Charge:</label>
                                         <div class="col-sm-8">
-                                            <h4> &#8377; {{vm.convertToFloat(vm.bookingForm.basic_amount) + vm.convertToFloat(vm.bookingForm.service_tax) + 
-                                                vm.convertToFloat(vm.bookingForm.other_charge)}} </h4>
+                                            <h4> &#8377; {{vm.convertToFloat(vm.booking.basic_amount) + vm.convertToFloat(vm.booking.service_tax) + 
+                                                vm.convertToFloat(vm.booking.other_charge)}} </h4>
                                         </div>
                                     </div>
                                 </div> 
@@ -412,7 +378,7 @@
                                     <div class="form-group">
                                         <label for="other_charge" class="col-sm-4 control-label">Other Charge:</label>
                                         <div class="col-sm-8">
-                                            <h4> &#8377; {{vm.bookingForm.other_charge}} </h4>
+                                            <h4> &#8377; {{vm.booking.other_charge}} </h4>
                                         </div>
                                     </div>
                                 </div>
@@ -438,7 +404,7 @@
                                         <div class="form-group">
                                             <label for="vehicle_number" class="col-sm-4 control-label">Vehicle Number:</label>
                                             <div class="col-sm-8">
-                                                <input id="vehicle_number" type="text" class="form-control" ng-model="vm.bookingForm.vehicle_number" 
+                                                <input id="vehicle_number" type="text" class="form-control" ng-model="vm.booking.vehicle_number" 
                                                     placeholder="Enter Vehicle Number" />
                                             </div>
                                         </div>
@@ -447,7 +413,7 @@
                                         <div class="form-group">
                                             <label for="vehicle_owner_broker_name" class="col-sm-4 control-label">Owner / Broker Name:</label>
                                             <div class="col-sm-8">
-                                                <input id="vehicle_owner_broker_name" type="text" class="form-control" ng-model="vm.bookingForm.vehicle_owner_broker_name.name" 
+                                                <input id="vehicle_owner_broker_name" type="text" class="form-control" ng-model="vm.booking.vehicle_owner_broker_name.name" 
                                                     placeholder="Enter Owner or Broker Name" />
                                             </div>
                                         </div>
@@ -456,7 +422,7 @@
                                         <div class="form-group">
                                             <label for="vehicle_owner_broker_address" class="col-sm-4 control-label">Owner / Broker Address:</label>
                                             <div class="col-sm-8">
-                                                <textarea id="vehicle_owner_broker_address" class="form-control" ng-model="vm.bookingForm.vehicle_owner_broker_name.address" 
+                                                <textarea id="vehicle_owner_broker_address" class="form-control" ng-model="vm.booking.vehicle_owner_broker_name.address" 
                                                     placeholder="Enter Owner or Broker Address"> </textarea>
                                             </div>
                                         </div>
@@ -465,7 +431,7 @@
                                         <div class="form-group">
                                             <label for="vehicle_owner_broker_phonenum" class="col-sm-4 control-label">Owner / Broker Phone:</label>
                                             <div class="col-sm-8">
-                                                <input id="vehicle_owner_broker_phonenum" type="text" class="form-control" ng-model="vm.bookingForm.vehicle_owner_broker_name.phonenum" 
+                                                <input id="vehicle_owner_broker_phonenum" type="text" class="form-control" ng-model="vm.booking.vehicle_owner_broker_name.phonenum" 
                                                     placeholder="Enter Owner or Broker Phone" />
                                             </div>
                                         </div>
@@ -474,7 +440,7 @@
                                         <div class="form-group">
                                             <label for="vehicle_type" class="col-sm-4 control-label">Vehicle Type:</label>
                                             <div class="col-sm-8">
-                                                <select class="form-control" id="vehicle_type" ng-model="vm.bookingForm.vehicle_type">
+                                                <select class="form-control" id="vehicle_type" ng-model="vm.booking.vehicle_type">
                                                     <option disabled selected value="">-- choose a Vehicle Type --</option>
                                                     <option value="company_vehicle">Company Vehicle</option>
                                                     <option value="market_vehicle">Market Vehicle</option>
@@ -486,7 +452,7 @@
                                         <div class="form-group">
                                             <label for="driver_name" class="col-sm-4 control-label">Driver Name:</label>
                                             <div class="col-sm-8">
-                                                <input id="driver_name" type="text" class="form-control" ng-model="vm.bookingForm.driver.name" 
+                                                <input id="driver_name" type="text" class="form-control" ng-model="vm.booking.driver.name" 
                                                     placeholder="Enter Driver Name" />
                                             </div>
                                         </div>
@@ -495,7 +461,7 @@
                                         <div class="form-group">
                                             <label for="driver_numb" class="col-sm-4 control-label">Driver Number:</label>
                                             <div class="col-sm-8">
-                                                <input id="driver_numb" type="text" class="form-control" ng-model="vm.bookingForm.driver.numb" 
+                                                <input id="driver_numb" type="text" class="form-control" ng-model="vm.booking.driver.numb" 
                                                     placeholder="Enter Driver Phone Number" />
                                             </div>
                                         </div>
@@ -512,7 +478,7 @@
                                                             &#8377;
                                                         </button>
                                                     </span>
-                                                    <input id="commission" type="text" class="form-control" ng-model="vm.bookingForm.commission" 
+                                                    <input id="commission" type="text" class="form-control" ng-model="vm.booking.commission" 
                                                         placeholder="Enter Commission" />
                                                 </p>  
                                             </div>
@@ -528,7 +494,7 @@
                                                             &#8377;
                                                         </button>
                                                     </span>
-                                                    <input id="Interest" type="text" class="form-control" ng-model="vm.bookingForm.interest" 
+                                                    <input id="Interest" type="text" class="form-control" ng-model="vm.booking.interest" 
                                                         placeholder="Enter Interest" />
                                                 </p>  
                                             </div>
@@ -544,7 +510,7 @@
                                                             &#8377;
                                                         </button>
                                                     </span>
-                                                    <input id="extra" type="text" class="form-control" ng-model="vm.bookingForm.extra" 
+                                                    <input id="extra" type="text" class="form-control" ng-model="vm.booking.extra" 
                                                         placeholder="Enter Extra" />
                                                 </p>  
                                             </div>
@@ -560,7 +526,7 @@
                                                             &#8377;
                                                         </button>
                                                     </span>
-                                                    <input id="crane_charge" type="text" class="form-control" ng-model="vm.bookingForm.crane_charge" 
+                                                    <input id="crane_charge" type="text" class="form-control" ng-model="vm.booking.crane_charge" 
                                                         placeholder="Enter Crane Charge" />
                                                 </p>  
                                             </div>
@@ -576,7 +542,7 @@
                                                             &#8377;
                                                         </button>
                                                     </span>
-                                                    <input id="halting" type="text" class="form-control" ng-model="vm.bookingForm.halting" 
+                                                    <input id="halting" type="text" class="form-control" ng-model="vm.booking.halting" 
                                                         placeholder="Enter Halting" />
                                                 </p>  
                                             </div>
@@ -592,7 +558,7 @@
                                                             &#8377;
                                                         </button>
                                                     </span>
-                                                    <input id="hire" type="text" class="form-control" ng-model="vm.bookingForm.hire" 
+                                                    <input id="hire" type="text" class="form-control" ng-model="vm.booking.hire" 
                                                         placeholder="Enter Hire" />
                                                 </p>  
                                             </div>
@@ -602,9 +568,9 @@
                                         <div class="form-group">
                                             <label class="col-sm-4 control-label">Total Payable:</label>
                                             <div class="col-sm-8">
-                                                <h4> &#8377; {{vm.convertToFloat(vm.bookingForm.commission) + vm.convertToFloat(vm.bookingForm.interest) + 
-                                                    vm.convertToFloat(vm.bookingForm.extra) + vm.convertToFloat(vm.bookingForm.crane_charge) + 
-                                                    vm.convertToFloat(vm.bookingForm.halting) + vm.convertToFloat(vm.bookingForm.hire)}} </h4>
+                                                <h4> &#8377; {{vm.convertToFloat(vm.booking.commission) + vm.convertToFloat(vm.booking.interest) + 
+                                                    vm.convertToFloat(vm.booking.extra) + vm.convertToFloat(vm.booking.crane_charge) + 
+                                                    vm.convertToFloat(vm.booking.halting) + vm.convertToFloat(vm.booking.hire)}} </h4>
                                             </div>
                                         </div>
                                     </div> 
@@ -636,7 +602,7 @@
                                                         &#8377;
                                                     </button>
                                                 </span>
-                                                <input id="advance" type="text" class="form-control" ng-model="vm.bookingForm.advance" 
+                                                <input id="advance" type="text" class="form-control" ng-model="vm.booking.advance" 
                                                     placeholder="Enter Advance" ng-change="vm.onAdvanceChange()"/>
                                             </p>  
                                         </div>
@@ -662,7 +628,7 @@
                                     <div class="form-group">
                                         <label for="payment_mode" class="col-sm-4 control-label">Payment Mode:</label>
                                         <div class="col-sm-8">
-                                            <select class="form-control" id="payment_mode" ng-model="vm.bookingForm.payments.payment_mode">
+                                            <select class="form-control" id="payment_mode" ng-model="vm.booking.payments.payment_mode">
                                                 <option disabled selected value="">-- choose a Payment Mode --</option>
                                                 <option value="cash">Cash</option>
                                                 <option value="cheque">Cheque</option>
@@ -671,21 +637,21 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-6" ng-show="vm.bookingForm.payments.payment_mode == 'cheque'">
+                                <div class="col-md-6" ng-show="vm.booking.payments.payment_mode == 'cheque'">
                                     <div class="form-group">
                                         <label for="cheque_no" class="col-sm-4 control-label">Cheque No:</label>
                                         <div class="col-sm-8">
-                                            <input id="cheque_no" type="text" class="form-control" ng-model="vm.bookingForm.payments.cheque_no" 
+                                            <input id="cheque_no" type="text" class="form-control" ng-model="vm.booking.payments.cheque_no" 
                                                 placeholder="Enter Cheque Number"/>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-6" ng-show="vm.bookingForm.payments.payment_mode == 'cheque'">
+                                <div class="col-md-6" ng-show="vm.booking.payments.payment_mode == 'cheque'">
                                     <div class="form-group">
                                         <label for="cheque_no" class="col-sm-4 control-label">Cheque Date:</label>
                                         <div class="col-sm-8">
                                             <p class="input-group">
-                                                <input type="text" class="form-control" uib-datepicker-popup="dd-MMM-yyyy" ng-model="vm.bookingForm.payments.cheque_date" 
+                                                <input type="text" class="form-control" uib-datepicker-popup="dd-MMM-yyyy" ng-model="vm.booking.payments.cheque_date" 
                                                     is-open="vm.dateset.cheque_date.isOpened" datepicker-options="vm.dateOptions"/>
                                                 <span class="input-group-btn">
                                                     <button type="button" class="btn btn-default" ng-click="vm.selectDate($event, 3)"><i class="glyphicon glyphicon-calendar"></i></button>
@@ -694,21 +660,21 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-6" ng-show="vm.bookingForm.payments.payment_mode == 'neft'">
+                                <div class="col-md-6" ng-show="vm.booking.payments.payment_mode == 'neft'">
                                     <div class="form-group">
                                         <label for="cheque_no" class="col-sm-4 control-label">NEFT No:</label>
                                         <div class="col-sm-8">
-                                            <input id="cheque_no" type="text" class="form-control" ng-model="vm.bookingForm.payments.cheque_no" 
+                                            <input id="cheque_no" type="text" class="form-control" ng-model="vm.booking.payments.cheque_no" 
                                                 placeholder="Enter NEFT Number"/>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-6" ng-show="vm.bookingForm.payments.payment_mode == 'neft'">
+                                <div class="col-md-6" ng-show="vm.booking.payments.payment_mode == 'neft'">
                                     <div class="form-group">
                                         <label for="cheque_no" class="col-sm-4 control-label">NEFT Date:</label>
                                         <div class="col-sm-8">
                                             <p class="input-group">
-                                                <input type="text" class="form-control" uib-datepicker-popup="dd-MMM-yyyy" ng-model="vm.bookingForm.payments.cheque_date" 
+                                                <input type="text" class="form-control" uib-datepicker-popup="dd-MMM-yyyy" ng-model="vm.booking.payments.cheque_date" 
                                                     is-open="vm.dateset.cheque_date.isOpened" datepicker-options="vm.dateOptions"/>
                                                 <span class="input-group-btn">
                                                     <button type="button" class="btn btn-default" ng-click="vm.selectDate($event, 3)"><i class="glyphicon glyphicon-calendar"></i></button>
@@ -721,8 +687,9 @@
                                     <div class="form-group">
                                         <label class="col-sm-4 control-label">Balance:</label>
                                         <div class="col-sm-8">
-                                            <h4> &#8377; {{- vm.convertToFloat(vm.bookingForm.advance) + vm.convertToFloat(vm.bookingForm.commission) + vm.convertToFloat(vm.bookingForm.interest) + 
-                                                    vm.convertToFloat(vm.bookingForm.extra) + vm.convertToFloat(vm.bookingForm.crane_charge) + vm.convertToFloat(vm.bookingForm.halting) + vm.convertToFloat(vm.bookingForm.hire)}}
+                                            <h4> &#8377; {{- vm.convertToFloat(vm.booking.advance) + vm.convertToFloat(vm.booking.commission) + vm.convertToFloat(vm.booking.interest) + 
+                                                    vm.convertToFloat(vm.booking.extra) + vm.convertToFloat(vm.booking.crane_charge) + vm.convertToFloat(vm.booking.halting) + 
+                                                    vm.convertToFloat(vm.booking.hire)}}
                                             </h4>
                                         </div>
                                     </div>
@@ -731,7 +698,7 @@
                                     <div class="form-group">
                                         <label for="balance_payment_mode" class="col-sm-4 control-label">Balance Payment Mode:</label>
                                         <div class="col-sm-8">
-                                            <select class="form-control" id="balance_payment_mode" ng-model="vm.bookingForm.balance.payment_mode">
+                                            <select class="form-control" id="balance_payment_mode" ng-model="vm.booking.balance.payment_mode">
                                                 <option disabled selected value="">-- choose a Payment Mode --</option>
                                                 <option value="cash">Cash</option>
                                                 <option value="cheque">Cheque</option>
@@ -740,21 +707,21 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-6" ng-show="vm.bookingForm.balance.payment_mode == 'cheque'">
+                                <div class="col-md-6" ng-show="vm.booking.balance.payment_mode == 'cheque'">
                                     <div class="form-group">
                                         <label for="balance_cheque_no" class="col-sm-4 control-label">Balance Cheque No:</label>
                                         <div class="col-sm-8">
-                                            <input id="balance_cheque_no" type="text" class="form-control" ng-model="vm.bookingForm.balance.cheque_no" 
+                                            <input id="balance_cheque_no" type="text" class="form-control" ng-model="vm.booking.balance.cheque_no" 
                                                 placeholder="Enter Cheque Number"/>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-6" ng-show="vm.bookingForm.balance.payment_mode == 'cheque'">
+                                <div class="col-md-6" ng-show="vm.booking.balance.payment_mode == 'cheque'">
                                     <div class="form-group">
                                         <label for="balance_cheque_no" class="col-sm-4 control-label">Balance Cheque Date:</label>
                                         <div class="col-sm-8">
                                             <p class="input-group">
-                                                <input type="text" class="form-control" uib-datepicker-popup="dd-MMM-yyyy" ng-model="vm.bookingForm.balance.cheque_date" 
+                                                <input type="text" class="form-control" uib-datepicker-popup="dd-MMM-yyyy" ng-model="vm.booking.balance.cheque_date" 
                                                     is-open="vm.dateset.balance_cheque_date.isOpened" datepicker-options="vm.dateOptions"/>
                                                 <span class="input-group-btn">
                                                     <button type="button" class="btn btn-default" ng-click="vm.selectDate($event, 4)"><i class="glyphicon glyphicon-calendar"></i></button>
@@ -763,21 +730,21 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-6" ng-show="vm.bookingForm.balance.payment_mode == 'neft'">
+                                <div class="col-md-6" ng-show="vm.booking.balance.payment_mode == 'neft'">
                                     <div class="form-group">
                                         <label for="balance_cheque_no" class="col-sm-4 control-label">Balance NEFT No:</label>
                                         <div class="col-sm-8">
-                                            <input id="balance_cheque_no" type="text" class="form-control" ng-model="vm.bookingForm.balance.cheque_no" 
+                                            <input id="balance_cheque_no" type="text" class="form-control" ng-model="vm.booking.balance.cheque_no" 
                                                 placeholder="Enter Balance NEFT Number"/>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-6" ng-show="vm.bookingForm.balance.payment_mode == 'neft'">
+                                <div class="col-md-6" ng-show="vm.booking.balance.payment_mode == 'neft'">
                                     <div class="form-group">
                                         <label for="balance_cheque_no" class="col-sm-4 control-label">Balance NEFT Date:</label>
                                         <div class="col-sm-8">
                                             <p class="input-group">
-                                                <input type="text" class="form-control" uib-datepicker-popup="dd-MMM-yyyy" ng-model="vm.bookingForm.balance.cheque_date" 
+                                                <input type="text" class="form-control" uib-datepicker-popup="dd-MMM-yyyy" ng-model="vm.booking.balance.cheque_date" 
                                                     is-open="vm.dateset.balance_cheque_date.isOpened" datepicker-options="vm.dateOptions"/>
                                                 <span class="input-group-btn">
                                                     <button type="button" class="btn btn-default" ng-click="vm.selectDate($event, 4)"><i class="glyphicon glyphicon-calendar"></i></button>
@@ -808,7 +775,7 @@
                                         <label for="pod_receipt" class="col-sm-4 control-label">Receipt Date:</label>
                                         <div class="col-sm-8">
                                             <p class="input-group">
-                                                <input type="text" class="form-control" uib-datepicker-popup="dd-MMM-yyyy" ng-model="vm.bookingForm.pod.receipt" 
+                                                <input type="text" class="form-control" uib-datepicker-popup="dd-MMM-yyyy" ng-model="vm.booking.pod.receipt" 
                                                     is-open="vm.dateset.pod_receipt.isOpened" datepicker-options="vm.dateOptions"/>
                                                 <span class="input-group-btn">
                                                     <button type="button" class="btn btn-default" ng-click="vm.selectDate($event, 5)"><i class="glyphicon glyphicon-calendar"></i></button>
@@ -822,7 +789,7 @@
                                         <label for="pod_received" class="col-sm-4 control-label">Received Date:</label>
                                         <div class="col-sm-8">
                                             <p class="input-group">
-                                                <input type="text" class="form-control" uib-datepicker-popup="dd-MMM-yyyy" ng-model="vm.bookingForm.pod.received" 
+                                                <input type="text" class="form-control" uib-datepicker-popup="dd-MMM-yyyy" ng-model="vm.booking.pod.received" 
                                                     is-open="vm.dateset.pod_received.isOpened" datepicker-options="vm.dateOptions"/>
                                                 <span class="input-group-btn">
                                                     <button type="button" class="btn btn-default" ng-click="vm.selectDate($event, 6)"><i class="glyphicon glyphicon-calendar"></i></button>
@@ -835,7 +802,7 @@
                                     <div class="form-group">
                                         <label for="bill_no" class="col-sm-4 control-label">Bill No:</label>
                                         <div class="col-sm-8">
-                                            <input id="bill_no" type="text" class="form-control" ng-model="vm.bookingForm.pod.bill_no"
+                                            <input id="bill_no" type="text" class="form-control" ng-model="vm.booking.pod.bill_no"
                                                 placeholder="Enter Bill Number"/>
                                         </div>
                                     </div>
@@ -844,7 +811,7 @@
                                     <div class="form-group">
                                         <label for="customer_submitted" class="col-sm-6 control-label">POD submitted to Customer?</label>
                                         <div class="col-sm-1">
-                                            <input id="customer_submitted" type="checkbox" ng-model="vm.bookingForm.pod.customer_submitted" class="form-control" />
+                                            <input id="customer_submitted" type="checkbox" ng-model="vm.booking.pod.customer_submitted" class="form-control" />
                                         </div>
                                     </div>
                                 </div>
@@ -852,29 +819,29 @@
                                     <div class="form-group">
                                         <label for="gmr" class="col-sm-4 control-label">GMR:</label>
                                         <div class="col-sm-8">
-                                            <input id="gmr" type="text" class="form-control" ng-model="vm.bookingForm.pod.gmr"
+                                            <input id="gmr" type="text" class="form-control" ng-model="vm.booking.pod.gmr"
                                                 placeholder="Enter GMR"/>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="gmr" class="col-sm-4 control-label">Bank:  <span style="color:blue;font-size:12px;"> {{vm.bookingForm.bank}} </span></label>
+                                        <label for="gmr" class="col-sm-4 control-label">Bank:  <span style="color:blue;font-size:12px;"> {{vm.booking.bank}} </span></label>
                                         <div class="col-sm-8">
                                             <div class="btn-group">
-                                                <label class="btn btn-primary" ng-model="vm.bookingForm.bank" btn-radio="'axis'" ng-class="{active : vm.bookingForm.bank === 'axis'}" ng-click="vm.onBankChange('axis')">Axis Bank</label>
-                                                <label class="btn btn-primary" ng-model="vm.bookingForm.bank" btn-radio="'icici'" ng-class="{active : vm.bookingForm.bank === 'icici'}" ng-click="vm.onBankChange('icici')">ICICI Bank</label>
+                                                <label class="btn btn-primary" ng-model="vm.booking.bank" btn-radio="'axis'" ng-class="{active : vm.booking.bank === 'axis'}" ng-click="vm.onBankChange('axis')">Axis Bank</label>
+                                                <label class="btn btn-primary" ng-model="vm.booking.bank" btn-radio="'icici'" ng-class="{active : vm.booking.bank === 'icici'}" ng-click="vm.onBankChange('icici')">ICICI Bank</label>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="gmr" class="col-sm-4 control-label">Show Vehicle No: <span style="color:blue;font-size:12px;"> {{vm.bookingForm.show_vehicle_no}}  </span></label>
+                                        <label for="gmr" class="col-sm-4 control-label">Show Vehicle No: <span style="color:blue;font-size:12px;"> {{vm.booking.show_vehicle_no}}  </span></label>
                                         <div class="col-sm-8">
                                             <div class="btn-group">
-                                                <label class="btn btn-primary" ng-model="vm.bookingForm.show_vehicle_no" btn-radio="true" ng-class="{active : vm.bookingForm.show_vehicle_no == true}" ng-click="vm.onShowVehicleNoChange(true)">YES</label>
-                                                <label class="btn btn-primary" ng-model="vm.bookingForm.show_vehicle_no" btn-radio="false" ng-class="{active : vm.bookingForm.show_vehicle_no == false}" ng-click="vm.onShowVehicleNoChange(false)">NO</label>
+                                                <label class="btn btn-primary" ng-model="vm.booking.show_vehicle_no" btn-radio="true" ng-class="{active : vm.booking.show_vehicle_no == true}" ng-click="vm.onShowVehicleNoChange(true)">YES</label>
+                                                <label class="btn btn-primary" ng-model="vm.booking.show_vehicle_no" btn-radio="false" ng-class="{active : vm.booking.show_vehicle_no == false}" ng-click="vm.onShowVehicleNoChange(false)">NO</label>
                                             </div>
                                         </div>
                                     </div>
@@ -898,12 +865,7 @@
         <div class="page-controls">
             <div class="row text-right" role="toolbar" ng-hide="vm.isError">
                 <div class="loading-indicator" ng-show="vm.requestSubmitted && !vm.bookingCompleted"><img src="images/loader.gif" alt="loading" width="70" height="70" /></div>
-                <button type="button" class="btn btn-default" ng-disabled="vm.bookingForm.$invalid || vm.requestSubmitted" ng-hide="vm.bookingCompleted" ng-click="vm.save(vm.bookingForm.$valid)">Save</button>
-                <button type="button" class="btn btn-default" ng-hide="vm.bookingCompleted" ng-click="vm.reset()">Reset</button>
-                <button type="button" class="btn btn-default" ng-show="vm.bookingCompleted" ng-click="vm.gotoNewBooking()">New Order</button>
-            </div>
-            <div class="row text-right" role="toolbar" ng-show="vm.isError">
-                <button type="button" class="btn btn-default" ng-show="vm.bookingCompleted" ng-click="vm.gotoNewBooking()">New Order</button>
+                <button type="button" class="btn btn-default" ng-disabled="vm.bookingForm.$invalid || vm.requestSubmitted" ng-hide="vm.bookingCompleted" ng-click="vm.save()">Save</button>
             </div>
             <br/>
         </div>

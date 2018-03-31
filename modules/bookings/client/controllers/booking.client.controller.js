@@ -84,7 +84,7 @@
         invoice_date: "",
         basic_amount: "",
         service_tax: "",
-        other_charge: "",
+        other_charge: 0,
         booking_method: "",
         vehicle_number: "",
         vehicle_type: "",
@@ -107,7 +107,7 @@
           cheque_date: ""
         },
         balance: {
-          payment_mode: "cheque",
+          payment_mode: "",
           cheque_no: "",
           cheque_date: ""
         },
@@ -186,8 +186,8 @@
 
     vm.dateOptions = {
       formatYear: 'yy',
-      maxDate: new Date(2020, 5, 22),
-      minDate: new Date(),
+      maxDate: new Date(2030, 5, 22),
+      minDate: new Date(1920, 5, 22),
       startingDay: 1
     };
 
@@ -239,6 +239,7 @@
         vm.bookingForm.extra_breakup.splice(index, 1);
     }
 
+    vm.bookingForm.other_charge = 0;
     vm.onBreakupChange = function() {
         vm.bookingForm.other_charge = 0;
         for(var i=0; i<vm.bookingForm.extra_breakup.length; i++) {
