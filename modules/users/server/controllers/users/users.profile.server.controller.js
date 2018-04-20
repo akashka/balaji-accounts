@@ -15,7 +15,7 @@ var _ = require('lodash'),
   config = require(path.resolve('./config/config')),
   User = mongoose.model('User'),
   validator = require('validator');
-
+ 
 var whitelistedFields = ['firstName', 'lastName', 'email', 'username'];
 
 var useS3Storage = config.uploads.storage === 's3' && config.aws.s3;
