@@ -174,7 +174,7 @@
                               <div class="form-group">
                                   <label for="basic_amount" class="col-sm-4 control-label">Basic Amount:</label>
                                   <div class="col-sm-8">
-                                      <p class="input-group date">{{vm.bookingForm.basic_amount}}</p>                        
+                                      <p class="input-group date">&#8377; {{vm.bookingForm.basic_amount}}</p>                        
                                   </div>
                               </div>
                           </div>
@@ -206,8 +206,7 @@
                               <div class="form-group">
                                   <label class="col-sm-4 control-label">Total Charge:</label>
                                   <div class="col-sm-8">
-                                      <h4> &#8377; {{vm.convertToFloat(vm.bookingForm.basic_amount) + vm.convertToFloat(vm.bookingForm.service_tax) + 
-                                          vm.convertToFloat(vm.bookingForm.other_charge)}} </h4>
+                                      <h4> &#8377; {{vm.calculateTotal(vm.bookingForm)}} </h4>
                                   </div>
                               </div>
                           </div> 
@@ -325,9 +324,7 @@
                                   <div class="form-group">
                                       <label class="col-sm-4 control-label">Total Payable:</label>
                                       <div class="col-sm-8">
-                                          <h4> &#8377; {{vm.convertToFloat(vm.bookingForm.commission) + vm.convertToFloat(vm.bookingForm.interest) + 
-                                              vm.convertToFloat(vm.bookingForm.extra) + vm.convertToFloat(vm.bookingForm.crane_charge) + 
-                                              vm.convertToFloat(vm.bookingForm.halting) + vm.convertToFloat(vm.bookingForm.hire)}} </h4>
+                                          <h4> &#8377; {{vm.calculatePayable(vm.bookingForm)}} </h4>
                                       </div>
                                   </div>
                               </div> 
@@ -361,9 +358,7 @@
                               <div class="form-group">
                                   <label for="advance_perc" class="col-sm-4 control-label">Advance (%):</label>
                                   <div class="col-sm-8">
-                                              {{(vm.bookingForm.advance * 100 / (vm.convertToFloat(vm.bookingForm.commission) + vm.convertToFloat(vm.bookingForm.interest) + 
-                                              vm.convertToFloat(vm.bookingForm.extra) + vm.convertToFloat(vm.bookingForm.crane_charge) + 
-                                              vm.convertToFloat(vm.bookingForm.halting) + vm.convertToFloat(vm.bookingForm.hire))) | number:2}} % 
+                                              {{(vm.bookingForm.advance * 100 / (vm.calculatePayable(vm.bookingForm))) | number:2}} % 
                                   </div>
                               </div>
                           </div>
@@ -391,8 +386,7 @@
                               <div class="form-group">
                                   <label class="col-sm-4 control-label">Balance:</label>
                                   <div class="col-sm-8">
-                                      <h4> &#8377; {{vm.convertToFloat(vm.bookingForm.basic_amount) - vm.convertToFloat(vm.bookingForm.advance)
-                                          + vm.convertToFloat(vm.bookingForm.service_tax) + vm.convertToFloat(vm.bookingForm.other_charge)}} </h4>
+                                      <h4> &#8377; {{vm.calculateTotal(vm.bookingForm) - vm.convertToFloat(vm.bookingForm.advance)}} </h4>
                                   </div>
                               </div>
                           </div> 

@@ -1,0 +1,73 @@
+<section style="padding-top:25px;">
+    <div class="row">
+        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="dashboard-stat2 ">
+                <div class="display">
+                    <div class="number">
+                        <h3 class="font-green-sharp">
+                             <span data-counter="counterup" data-value={{vm.totalBusiness}}>{{vm.totalBusiness}}</span> 
+                        </h3>
+                        <small>TOTAL Business</small>
+                    </div>
+                    <div class="icon">
+                        <i class="glyphicon glyphicon-paperclip"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="dashboard-stat2 ">
+                <div class="display">
+                    <div class="number">
+                        <h3 class="font-red-haze">
+                             <span data-counter="counterup" data-value={{vm.totalPayable}}>{{vm.totalPayable}}</span> 
+                        </h3>
+                        <small>TOTAL PAYABLE</small>
+                    </div>
+                    <div class="icon">
+                        <i class="glyphicon glyphicon-thumbs-up"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="dashboard-stat2 ">
+                <div class="display">
+                    <div class="number">
+                        <h3 class="font-blue-sharp">
+                            <span data-counter="counterup" data-value={{vm.bookings.length}}>{{vm.bookings.length}}</span>
+                        </h3>
+                        <small>BOOKINGS</small>
+                    </div>
+                    <div class="icon">
+                        <i class="glyphicon glyphicon-shopping-cart"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="dashboard-stat2 ">
+                <div class="display">
+                    <div class="number">
+                        <h3 class="font-purple-soft">
+                             <span data-counter="counterup" data-value={{vm.totalBusiness-vm.totalPayable}}>{{vm.totalBusiness-vm.totalPayable}}</span> 
+                        </h3>
+                        <small>PROFIT</small>
+                    </div>
+                    <div class="icon">
+                        <i class="glyphicon glyphicon-user"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-dm-12 row">
+        <div id="pickup"></div>
+    </div>
+
+    <div class="col-dm-12 row">
+        <div id="clients"></div>
+    </div>
+
+</section>

@@ -1,0 +1,87 @@
+.dashboard-stat2 {
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    -ms-border-radius: 4px;
+    -o-border-radius: 4px;
+    border-radius: 4px;
+    background: #575050;
+    padding: 15px 15px 30px;
+}
+
+.dashboard-stat2, .dashboard-stat2 .display {
+    margin-bottom: 50px;
+}
+
+.dashboard-stat2 .display .number {
+    float: left;
+    display: inline-block;
+}
+
+.dashboard-stat2 .display .number h3 {
+    margin: 0 0 2px;
+    padding: 0;
+    font-size: 30px;
+    font-weight: 400;
+}
+
+.font-purple-soft {
+    color: #8877a9!important;
+}
+
+.font-green-sharp {
+    color: #2ab4c0!important;
+}
+
+.dashboard-stat2 .display .number small {
+    font-size: 14px;
+    color: #AAB5BC;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.dashboard-stat2 .display .icon {
+    display: inline-block;
+    float: right;
+    padding: 7px 0 0;
+}
+
+.dashboard-stat2 .display .icon>i {
+    color: #cbd4e0;
+    font-size: 26px;
+}
+
+.icon-pie-chart:before {
+    content: "\e05e";
+}
+
+.dashboard-stat2 .display:after, .dashboard-stat2 .display:before {
+    content: " ";
+    display: table;
+}
+
+.font-red-haze {
+    color: #f36a5a!important;
+}
+
+.icon-like:before {
+    content: "\e068";
+}
+
+.font-blue-sharp {
+    color: #5C9BD1!important;
+}
+
+.icon-basket:before {
+    content: "\e04e";
+}
+
+.dashboard-stat2 .display .number h3 {
+    margin: 0 0 2px;
+    padding: 0;
+    font-size: 30px;
+    font-weight: 400;
+}
+
+.icon-user:before {
+    content: "\e005";
+}

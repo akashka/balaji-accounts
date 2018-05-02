@@ -142,7 +142,10 @@
                                         <label for="consignor_name" class="col-sm-4 control-label">Name:</label>
                                         <div class="col-sm-8">
                                             <input id="consignor_name" type="text" class="form-control" ng-model="vm.bookingForm.consignor.name" 
-                                                placeholder="Enter Consignor Name" ng-required="true" />
+                                                placeholder="Enter Consignor Name" ng-required="true" ng-keyup="vm.complete(vm.bookingForm.consignor.name)" />
+                                            <ul class="list-group">
+                                                <li class="list-group-item" ng-repeat="client in vm.clients" ng-click="vm.fillTextbox(client)">{{client.name}}</li>
+                                            </ul>
                                             <div ng-messages="vm.bookingForm.consignor_name.$error" ng-show="vm.bookingForm.consignor_name.$dirty && vm.bookingForm.consignor_name.$invalid" class="error-message">
                                                 <div ng-message="required">Consignor Name is required</div>
                                             </div> 
@@ -221,7 +224,10 @@
                                         <label for="consignee_name" class="col-sm-4 control-label">Name:</label>
                                         <div class="col-sm-8">
                                             <input id="consignee_name" type="text" class="form-control" ng-model="vm.bookingForm.consignee.name" 
-                                                placeholder="Enter Consignee Name" ng-required="true" />
+                                                placeholder="Enter Consignee Name" ng-required="true" ng-keyup="vm.scomplete(vm.bookingForm.consignee.name)" />
+                                            <ul class="list-group">
+                                                <li class="list-group-item" ng-repeat="client in vm.sclients" ng-click="vm.sfillTextbox(client)">{{client.name}}</li>
+                                            </ul>
                                             <div ng-messages="vm.bookingForm.consignee_name.$error" ng-show="vm.bookingForm.consignee_name.$dirty && vm.bookingForm.consignee_name.$invalid" class="error-message">
                                                 <div ng-message="required">Consignee Name is required</div>
                                             </div> 

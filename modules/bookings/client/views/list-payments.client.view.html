@@ -1,10 +1,18 @@
 <section>
-  <div class="page-header">
-    <h1>Payment</h1>
+  <div class="page-header row">
+      <div class="col-md-8">
+        <h1>Payment</h1>
+      </div>
+      <div class="col-md-4">
+         <a class="btn btn-primary" style="background-image:linear-gradient(to bottom, brown 0%, brown 100%)" 
+            ng-click="vm.onMultiplePayment()" ng-hide="!vm.showMultipleModel">Cancel</a> 
+         <a class="btn btn-primary" style="background-image:linear-gradient(to bottom, brown 0%, brown 100%)" 
+            ng-click="vm.onMultiplePayment()" ng-hide="vm.showMultipleModel">MULTIPLE PAYMENT</a> 
+      </div>
   </div>
 
 
-  <div  ng-show="!vm.showModal">
+  <div  ng-show="!vm.showModal && !vm.showMultipleModel">
     <div class="list-group table-responsive">
       <table class="table table-hover" id="myTable">
           <thead>
@@ -38,11 +46,9 @@
               <td>{{booking.branch_area}}</td>
               <td>{{booking.invoice_number}}</td>
               <td>{{booking.invoice_date | date:'dd/MMM/yyyy'}}</td>
-              <td>&#8377;  {{vm.convertToFloat(booking.basic_amount) + vm.convertToFloat(booking.service_tax)
-                  + vm.convertToFloat(booking.other_charge)}}</td>
+              <td>&#8377;  {{vm.calculateTotal(booking)}}</td>
               <td>&#8377; {{booking.sumOfClearances}} </td>
-              <td>&#8377; {{vm.convertToFloat(booking.basic_amount)+vm.convertToFloat(booking.service_tax)+
-                  vm.convertToFloat(booking.other_charge)-vm.convertToFloat(booking.sumOfClearances)}} </td>
+              <td>&#8377; {{vm.calculateTotal(booking)-vm.convertToFloat(booking.sumOfClearances)}} </td>
               <td>{{booking.consignor.name}}</td>
               <td>{{booking.consignee.name}}</td>
             </tr>
@@ -93,7 +99,7 @@
                     <div class="form-group">
                         <label for="total_amount" class="col-sm-6 control-label">Total Amount:</label>
                         <div class="col-sm-6">
-                            &#8377;  {{vm.convertToFloat(vm.paymentForm.basic_amount) + vm.convertToFloat(vm.paymentForm.service_tax) + vm.convertToFloat(vm.paymentForm.other_charge)}}
+                            &#8377;  {{vm.calculateTotal(vm.paymentForm)}}
                         </div>
                     </div>
                 </div>
@@ -101,7 +107,7 @@
                     <div class="form-group">
                         <label for="balance_amount" class="col-sm-6 control-label">Amount Balance:</label>
                         <div class="col-sm-6">
-                            &#8377; {{vm.convertToFloat(vm.paymentForm.basic_amount)+vm.convertToFloat(vm.paymentForm.service_tax)+vm.convertToFloat(vm.paymentForm.other_charge)-vm.convertToFloat(vm.paymentForm.sumOfClearances)}}
+                            &#8377; {{vm.calculateTotal(vm.paymentForm) - vm.convertToFloat(vm.paymentForm.sumOfClearances)}}
                         </div>
                     </div>
                 </div>
@@ -149,5 +155,75 @@
       </div>
 
   </div>
+
+
+  <div ng-show="vm.showMultipleModel">
+        <div class="col-md-12">
+            <div class="form-group col-md-6">
+                <label class="control-label" for="roles">Clients:</label>
+                <div class="controls">
+                    <input type="text" name="clients" id="clients" ng-model="vm.selectedClient" ng-keyup="vm.complete(vm.selectedClient)" class="form-control" />
+                    <ul class="list-group">
+                        <li class="list-group-item" ng-repeat="client in vm.clients" ng-click="vm.fillTextbox(client)">{{client}}</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="selectedDate" class="col-sm-4 control-label">Payment Date:</label>
+                <div class="col-sm-6">
+                    <p class="input-group">
+                        <input type="text" class="form-control" uib-datepicker-popup="dd-MMM-yyyy" ng-model="vm.selectedDate.isdate" 
+                            is-open="vm.selectedDate.isOpened" datepicker-options="vm.dateOptions" ng-required="true"/>
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-default" ng-click="vm.selectDate($event, 1)"><i class="glyphicon glyphicon-calendar"></i></button>
+                        </span>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <table class="table table-hover" id="myTable">
+          <thead>
+            <tr>
+              <th ng-click="vm.sortTable(0)">LR Date</th>
+              <th ng-click="vm.sortTable(1)">LR No</th>
+              <th ng-click="vm.sortTable(2)">Challan No</th>
+              <th ng-click="vm.sortTable(4)">Invoice No</th>
+              <th ng-click="vm.sortTable(5)">Invoice Date</th>
+              <th ng-click="vm.sortTable(6)">Total Amount</th>
+              <th ng-click="vm.sortTable(7)">Amount Paid</th>
+              <th ng-click="vm.sortTable(8)">Pending</th>
+              <th ng-click="vm.sortTable(8)">Amount Paid</th>
+            </tr>
+          </thead>
+          <tbody ng-repeat="booking in vm.clientbookings">
+            
+            <tr>
+              <td>{{booking.lr_date | date:'dd/MMM/yyyy'}}</td>
+              <td>{{booking.lr_number}}</td>
+              <td>{{booking.challan_number}}</td>
+              <td>{{booking.invoice_number}}</td>
+              <td>{{booking.invoice_date | date:'dd/MMM/yyyy'}}</td>
+              <td>&#8377;  {{vm.calculateTotal(booking)}}</td>
+              <td>&#8377; {{booking.sumOfClearances}} </td>
+              <td>&#8377; {{vm.calculateTotal(booking)-vm.convertToFloat(booking.sumOfClearances)}} </td>
+              <td>
+                    <input id="amount" type="text" class="form-control" ng-model="booking.amt" placeholder="Enter Amount"/>
+              </td>
+            </tr>
+
+          </tbody>
+        </table>
+
+        <div class="col-md-12">
+            <div class="col-md-6">
+                <label class="control-label" for="roles">Total Amount: {{vm.calculateTotalAmount()}}</label>
+            </div>            
+            <div class="col-md-6">
+                <button type="button" class="btn btn-default" ng-click="vm.saveMultiple()">Save</button>
+            </div>
+        </div>            
+  </div>
+
 </section>
 

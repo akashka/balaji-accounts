@@ -141,6 +141,15 @@ var getBankDetails = function(bank) {
   return "";
 }
 
+var calculateGrand = function(booking) {
+  var total = 0;
+  if(booking.service_tax != "" && booking.service_tax != undefined) 
+    total += parseFloat(booking.service_tax);
+  if(booking.basic_amount != "" && booking.basic_amount != undefined) 
+    total += parseFloat(booking.basic_amount);
+  return total;
+}
+
 exports.downloadByID = function (req, res) {
   var id = req.params.bookingId;
   if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -162,7 +171,7 @@ exports.downloadByID = function (req, res) {
     stringTemplate = stringTemplate.replace('{{biller_details}}', booking.consignor.name + "\n" + booking.consignor.address + "\n Phone No:" 
 + (booking.consignor.phonenum != undefined ? booking.consignor.phonenum : "") + "\n GSTIN No:" + (booking.consignor.gstin_no != undefined ? booking.consignor.gstin_no : "")
 + "\n State:" + (booking.consignor.state != undefined ?booking.consignor.state : "") + "\n State Code:" + (booking.consignor.state_code != undefined ? booking.consignor.state_code : ""));
-    stringTemplate = stringTemplate.replace('{{frightbillno}}', (booking.pod.bill_no != undefined) ? booking.pod.bill_no : "");
+    stringTemplate = stringTemplate.replace('{{frightbillno}}', (booking.pod != undefined && booking.pod.bill_no != undefined) ? booking.pod.bill_no : "");
     stringTemplate = stringTemplate.replace('{{invoidedate}}', moment(booking.invoice_date).format("DD-MMM-YYYY"));
     stringTemplate = stringTemplate.replace('{{challan_no}}', booking.challan_number);
     stringTemplate = stringTemplate.replace('{{challan_date}}', moment(booking.lr_date).format("DD-MMM-YYYY"));
@@ -172,12 +181,12 @@ exports.downloadByID = function (req, res) {
     stringTemplate = stringTemplate.replace('{{invoice_no}}', booking.invoice_number);
     stringTemplate = stringTemplate.replace('{{weight}}', booking.weight);
     stringTemplate = stringTemplate.replace('{{amount}}', booking.basic_amount);
-    stringTemplate = stringTemplate.replace('{{amount_words}}', convertToWord(parseFloat(booking.service_tax) + parseFloat(booking.basic_amount)));
+    stringTemplate = stringTemplate.replace('{{amount_words}}', convertToWord(calculateGrand(booking)));
     stringTemplate = stringTemplate.replace('{{sub_total}}', (parseFloat(booking.basic_amount)));
     stringTemplate = stringTemplate.replace('{{cgst}}', 0);
     stringTemplate = stringTemplate.replace('{{sgst}}', 0);
-    stringTemplate = stringTemplate.replace('{{igst}}', booking.service_tax);
-    stringTemplate = stringTemplate.replace('{{grand_total}}', (parseFloat(booking.service_tax) + parseFloat(booking.basic_amount)));
+    stringTemplate = stringTemplate.replace('{{igst}}', ((booking.service_tax != undefined && booking.service_tax != 0) ? booking.service_tax : 0));
+    stringTemplate = stringTemplate.replace('{{grand_total}}', calculateGrand(booking));
     stringTemplate = stringTemplate.replace('{{bank_details}}', getBankDetails(booking.bank));
     stringTemplate = stringTemplate.replace('{{show_vehicle_no}}', (booking.show_vehicle_no) ? ("Vehicle No: " + booking.vehicle_number) : "");
 

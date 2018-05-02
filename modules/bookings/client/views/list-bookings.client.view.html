@@ -122,12 +122,9 @@
             <td>{{booking.vehicle_number}}</td>
             <td>{{booking.from}}</td>
             <td>{{booking.to}}</td>
-            <td>&#8377;  {{vm.convertToFloat(booking.basic_amount) + vm.convertToFloat(booking.service_tax)
-                 + vm.convertToFloat(booking.other_charge)}}</td>
+            <td>&#8377;  {{vm.calculateTotal(booking)}} </td>
             <td>{{booking.booking_method}}</td>
-            <td>&#8377;  {{vm.convertToFloat(booking.commission) + vm.convertToFloat(booking.interest)
-                  + vm.convertToFloat(booking.extra) + vm.convertToFloat(booking.crane_charge) +
-                  vm.convertToFloat(booking.halting) + vm.convertToFloat(booking.hire)}}</td>
+            <td>&#8377; {{vm.calculatePayable(booking)}}</td>
             <td>{{booking.vehicle_type}}</td>
           </tr>
         </tbody>

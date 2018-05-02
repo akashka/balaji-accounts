@@ -47,12 +47,10 @@
             <td>{{booking.branch_area}}</td>
             <td>{{booking.invoice_number}}</td>
             <td>{{booking.invoice_date | date:'dd/MMM/yyyy'}}</td>
-            <td>&#8377;  {{vm.convertToFloat(booking.basic_amount) + vm.convertToFloat(booking.service_tax)
-                 + vm.convertToFloat(booking.other_charge)}}</td>
+            <td>&#8377;  {{vm.calculateTotal(booking)}}</td>
             <td>{{booking.balance.cheque_date | date:'dd/MMM/yyyy'}}</td>
             <td>{{booking.balance.cheque_no}}</td>
-            <td>&#8377;  {{vm.convertToFloat(booking.basic_amount) + vm.convertToFloat(booking.service_tax)
-                 + vm.convertToFloat(booking.other_charge) - booking.advance}}</td>
+            <td>&#8377;  {{vm.calculateTotal(booking)- booking.advance}}</td>
           </tr>
           
         </tbody>

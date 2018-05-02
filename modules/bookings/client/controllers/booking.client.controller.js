@@ -5,9 +5,9 @@
     .module('bookings')
     .controller('BookingsAdminController', BookingsAdminController);
 
-  BookingsAdminController.$inject = ['$scope', '$state', '$window', 'BookingsService', 'Authentication', 'Notification', 'bookingResolve'];
+  BookingsAdminController.$inject = ['$scope', '$state', '$window', 'BookingsService', 'Authentication', 'Notification', 'bookingResolve', '$timeout'];
 
-  function BookingsAdminController($scope, $state, $window, booking, Authentication, Notification, bookingResolve) {
+  function BookingsAdminController($scope, $state, $window, booking, Authentication, Notification, bookingResolve, $timeout) {
     var vm = this;
     vm.authentication = Authentication;
     vm.bookings = angular.toJson(booking);
@@ -247,6 +247,70 @@
               vm.bookingForm.extra_breakup[i].extra_value = 0;
           vm.bookingForm.other_charge += vm.convertToFloat(vm.bookingForm.extra_breakup[i].extra_value);
         }
+    }
+
+    vm.allClients = [];
+    vm.clients = [];
+    vm.allsClients = [];
+    vm.sclients = [];
+
+    $timeout(function () {
+      for(var i=0; i<vm.allBookings.length; i++) {
+        var isFound = false;
+        for(var j=0; j<vm.allClients.length; j++) {
+          if(vm.allClients[j].name.toUpperCase() == vm.allBookings[i].consignor.name.toUpperCase()) isFound = true;
+        }
+        if(!isFound) vm.allClients.push(vm.allBookings[i].consignor);
+        var issFound = false;
+        for(var j=0; j<vm.allsClients.length; j++) {
+          if(vm.allsClients[j].name.toUpperCase() == vm.allBookings[i].consignee.name.toUpperCase()) isFound = true;
+        }
+        if(!isFound) vm.allsClients.push(vm.allBookings[i].consignee);
+      }
+    }, 500);
+
+    vm.complete = function(selectedClient) {
+      vm.clientbookings = [];
+			var output=[];
+			angular.forEach(vm.allClients,function(clts){
+				if(clts.name.toLowerCase().indexOf(selectedClient.toLowerCase())>=0){
+					output.push(clts);
+				}
+			});
+			vm.clients=output;
+    }
+    
+		vm.fillTextbox=function(string){
+			vm.bookingForm.consignor.name=string.name;
+      vm.bookingForm.consignor.address=string.address;
+      vm.bookingForm.consignor.phonenum=string.phonenum;
+      vm.bookingForm.consignor.gstin_no=string.gstin_no;
+      vm.bookingForm.consignor.pan_no=string.pan_no;
+      vm.bookingForm.consignor.state=string.state;
+      vm.bookingForm.consignor.state_code=string.state_code;
+      vm.clients=[];
+    }
+
+    vm.scomplete = function(selectedClient) {
+      vm.clientbookings = [];
+			var output=[];
+			angular.forEach(vm.allsClients,function(clts){
+				if(clts.name.toLowerCase().indexOf(selectedClient.toLowerCase())>=0){
+					output.push(clts);
+				}
+			});
+			vm.sclients=output;
+    }
+    
+		vm.sfillTextbox=function(string){
+			vm.bookingForm.consignee.name=string.name;
+      vm.bookingForm.consignee.address=string.address;
+      vm.bookingForm.consignee.phonenum=string.phonenum;
+      vm.bookingForm.consignee.gstin_no=string.gstin_no;
+      vm.bookingForm.consignee.pan_no=string.pan_no;
+      vm.bookingForm.consignee.state=string.state;
+      vm.bookingForm.consignee.state_code=string.state_code;
+      vm.sclients=[];
     }
 
     if($state.params.bookingId) {

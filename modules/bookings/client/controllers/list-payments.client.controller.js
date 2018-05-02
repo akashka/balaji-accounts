@@ -165,5 +165,111 @@
         }
     }
 
+    vm.calculateTotal = function(booking) {
+        var total = 0;
+        if(booking.basic_amount != "") total += vm.convertToFloat(booking.basic_amount);
+        if(booking.service_tax != "") total += vm.convertToFloat(booking.service_tax);
+        for(var e=0; e<booking.extra_breakup.length; e++) {
+          if(booking.extra_breakup[e].extra_value != "") total += vm.convertToFloat(booking.extra_breakup[e].extra_value);
+        }
+        return total;
+    }
+
+    vm.calculatePayable = function(booking) {
+        var total = 0;
+        if(booking.commission != "") total += vm.convertToFloat(booking.commission);
+        if(booking.interest != "") total += vm.convertToFloat(booking.interest);
+        if(booking.extra != "") total += vm.convertToFloat(booking.extra);
+        if(booking.crane_charge != "") total += vm.convertToFloat(booking.crane_charge);
+        if(booking.halting != "") total += vm.convertToFloat(booking.halting);
+        if(booking.hire != "") total += vm.convertToFloat(booking.hire);
+        return total;
+    }
+
+    vm.showMultipleModel = false;
+    vm.onMultiplePayment = function() {
+      vm.showMultipleModel = !vm.showMultipleModel;
+    }
+
+    vm.allClients = [];
+    vm.clients = [];
+    $timeout(function () {
+      for(var i=0; i<vm.bookings.length; i++) {
+        var isFound = false;
+        for(var j=0; j<vm.allClients.length; j++) {
+          if(vm.allClients[j].toUpperCase() == vm.bookings[i].consignor.name.toUpperCase()) isFound = true;
+        }
+        if(!isFound) vm.allClients.push(vm.bookings[i].consignor.name);
+      }
+    }, 500);
+
+    vm.complete = function(selectedClient) {
+      vm.clientbookings = [];
+			var output=[];
+			angular.forEach(vm.allClients,function(clts){
+				if(clts.toLowerCase().indexOf(selectedClient.toLowerCase())>=0){
+					output.push(clts);
+				}
+			});
+			vm.clients=output;
+    }
+    
+		vm.fillTextbox=function(string){
+			vm.selectedClient=string;
+      vm.clients=[];
+      for(var s=0; s<vm.bookings.length; s++) {
+        if(vm.bookings[s].consignor.name.toLowerCase() == vm.selectedClient.toLowerCase())
+          vm.clientbookings.push(vm.bookings[s]);
+      }
+    }
+    
+    vm.calculateTotalAmount = function() {
+      var total = 0;
+      for(var i = 0; i < vm.clientbookings.length; i++) {
+        if(vm.clientbookings[i].amt != "") total += Number(vm.clientbookings[i].amt);
+      }
+      return total;
+    }
+
+    vm.clientbookings = [];
+    vm.selectedDate = {
+      isdate: new Date(),
+      isOpened: false
+    };
+
+    vm.selectDate = function($event, num) {
+      if(num == 1) { vm.selectedDate.isOpened = true; }
+    };
+
+    vm.dateOptions = {
+      formatYear: 'yy',
+      maxDate: new Date(2030, 5, 22),
+      minDate: new Date(1920, 5, 22),
+      startingDay: 1
+    };
+
+    vm.saveMultiple = function() {
+      for(var e=0; e<vm.clientbookings.length; e++) {
+        if(vm.clientbookings[e].amt != "" && vm.clientbookings[e].amt != undefined && vm.clientbookings[e].amt != 0){
+          var amt = vm.clientbookings[e].amt;
+          delete vm.clientbookings[e].amt;    
+          vm.clientbookings[e].clearances.push({
+            amount_paid: amt,
+            date_paid: vm.selectedDate.isdate
+          });
+
+          // Create a new booking, or update the current instance
+          BookingsService.createOrUpdate(vm.clientbookings[e])
+            .then(successCallback)
+            .catch(errorCallback);
+
+          function successCallback(res) {}
+          function errorCallback(res) {}
+        }
+      }
+      $state.go('bookings.list');
+      Notification.success({ message: '<i class="glyphicon glyphicon-ok"></i> Booking saved successfully!' });
+    }
+
   }
 }());
